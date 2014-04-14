@@ -1,0 +1,70 @@
+<!DOCTYPE>
+<html>
+<head>
+</head>
+<body style="margin:0" bgcolor=black>
+	<div id="conteneur">
+		<center>
+		<canvas id="canvas" height=768 width=1280></canvas>
+		</center>
+	</div>
+</body>
+<script type="text/javascript" src="js/requestanimframe.js"></script>
+<script type="text/javascript" src="js/control.js"></script>
+<script type="text/javascript" src="js/spaceship.js"></script>
+<script type="text/javascript" src="js/run.js"></script>
+
+<script type="text/javascript">
+var canvasWidth, canvasHeight;
+var context;	
+
+document.onkeydown = function(e){
+	//analyse des touches clavier pressées
+	/*if (event.keyCode == 38){
+		toucheHaut = true;
+	}
+	else if (event.keyCode == 40){
+		toucheBas = true;
+	}*/
+	if (event.keyCode == 32){
+		saut = true;
+	}
+	else if (event.keyCode == 37){
+		toucheGauche = true;
+	}
+	else if (event.keyCode == 39){
+		toucheDroite = true;
+	}
+}
+document.onkeyup = function(e){
+	//analyse de situation des touches du clavier
+	/*if (event.keyCode == 38){
+		toucheHaut = false;
+	}
+	else if (event.keyCode == 40){
+		toucheBas = false;
+	}*/
+	if (event.keyCode == 32){
+		saut = false;
+	}
+	else if (event.keyCode == 37){
+		toucheGauche = false;
+	}
+	else if (event.keyCode == 39){
+		toucheDroite = false;
+	}
+}
+				
+//Fonction  d'initialisation - se lance quand la page HTML est lue
+window.onload = function(){
+	//déclaration du context
+	context = document.getElementById("canvas").getContext("2d");
+	canvasWidth = canvas.width = 1280;
+	canvasHeight = canvas.height = 768;
+	gravity = 0.8;
+	floor = 500;
+	cube = new Cube (100,250);
+	run();	
+}
+</script>
+</html>
