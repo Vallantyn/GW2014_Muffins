@@ -1,4 +1,4 @@
-/*function skillBar()
+function skillBar()
 {
 	this.skillButtons = [];
 }
@@ -12,7 +12,7 @@ skillBar.prototype.Start = function()
 
 }
 
-skillBar.prototype.Render = function()
+skillBar.prototype.Update = function()
 {
 	for (var i = 0; i < this.skillButtons.length; i++) {
 		this.skillButtons[i].Render();
@@ -46,4 +46,3 @@ skillButton.prototype =
 		context.strokeRect(this.x - this.width/2, this.y -  this.height/2,this.width,this.height);
 	}
 }
-*/

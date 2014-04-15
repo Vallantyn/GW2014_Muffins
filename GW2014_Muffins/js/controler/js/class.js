@@ -6,6 +6,7 @@ var Cube = function (x,y){
     this.height = 50;
     this.countjump = 0;
     this.speedY = 0;
+    this.speedX = 4;
     this.impulsion = 10;
     this.range = 200;
     this.color = "blue";
@@ -27,7 +28,7 @@ var Cube = function (x,y){
             this.speedY = 0;
         }
         //déplacement du vaisseau
-        this.x += (Input.rightKey - Input.leftKey) * 4;
+        this.x += (Input.rightKey - Input.leftKey) * this.speedX;
         if(Input.jump == true && this.countjump < 9){
             this.countjump++;
             this.speedY = -this.impulsion;
@@ -62,14 +63,46 @@ var Cube = function (x,y){
     this.eatSheep = function()
     {
         //Je sais, c'est horrible
-        var s = gameScene.ClosestSheepTo(this, gameScene.moutons);
-        if(Math.Dist(this, s) < this.range)
+
+        if(gameScene.moutons.length > 0)
         {
-            gameScene.KillSheep(s);
-            this.hunger += this.hungerReplenish;
-            if(this.hunger > 1) this.hunger = 1;
+            var s = gameScene.ClosestSheepTo(this, gameScene.moutons);
+            if(Math.Dist(this, s) < this.range)
+            {
+                gameScene.KillSheep(s);
+                this.hunger += this.hungerReplenish;
+                if(this.hunger > 1) this.hunger = 1;
+            }
+            repletion.setHunger(this.hunger);
+            
         }
-        repletion.setHunger(this.hunger);
+
+    }
+    this.tp = function(x, y)
+    {
+        if(this.hunger > 0)
+        {
+            this.x = x;
+            this.y = y;
+            this.hunger -= this.hungerCost;
+            if(this.hunger < 0) this.hunger = 0;
+            repletion.setHunger(this.hunger);
+            
+        }
+
+    }
+
+    this.putLog = function()
+    {
+        if(this.hunger > 0)
+        {
+            //pose une buche
+            logs.push (new Log(this.x,this.y));
+            this.hunger -= this.hungerCost;
+            if(this.hunger < 0) this.hunger = 0;
+            repletion.setHunger(this.hunger);
+        }
+
 
     }
 }

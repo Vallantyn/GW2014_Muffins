@@ -10,11 +10,11 @@ function getKey(){
         else if (event.keyCode == 39){
             Input.rightKey = true;
         }
-        else if (event.keyCode == 65){
+        else if (event.keyCode == 51){
             Input.teleport = true;
             Input.log = false;
         }
-        else if (event.keyCode == 90){
+        else if (event.keyCode == 52){
             Input.teleport = false;
             Input.log = true;
         }
@@ -37,6 +37,13 @@ function getKey(){
         if (event.keyCode == 50){
             cube.eatSheep();
         }
+        if (event.keyCode == 51){
+            Input.teleport = false;
+        }
+        if (event.keyCode == 52){
+            cube.putLog();
+        }
+
     }
 }
 
@@ -44,13 +51,10 @@ function getMouseLoc(){
     document.onclick = function(){
         if(Input.teleport == true){
             //teleport le cube
-            cube.x = window.event.clientX;
-            cube.y = window.event.clientY;
+            cube.tp(window.event.clientX,window.event.clientY);
+
         }
-        else if(Input.log == true){
-            //pose une buche
-            logs.push (new Log(window.event.clientX,window.event.clientY));
-        }
+      
     }
 }
 var logs = [];
