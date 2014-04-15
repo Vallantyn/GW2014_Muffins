@@ -44,22 +44,16 @@ function getKey(){
 //Capture la position de la souris
 function getMouseLoc(){
     document.onclick = function(){
-<<<<<<< HEAD
         //Presser A
-        if(teleport == true){
-=======
+        //if(teleport == true){
         if(Input.teleport == true){
->>>>>>> ec219f6c9084cb060122a9544327e9ea59e9585e
             //teleport le cube
             cube.x = window.event.clientX;
             cube.y = window.event.clientY;
         }
-<<<<<<< HEAD
         //Presser Z
-        else if(log == true){
-=======
+        //else if(log == true){
         else if(Input.log == true){
->>>>>>> ec219f6c9084cb060122a9544327e9ea59e9585e
             //pose une buche
             logs.push (new Log(window.event.clientX,window.event.clientY));
         }
