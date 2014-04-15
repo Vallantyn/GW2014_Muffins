@@ -1,3 +1,4 @@
+var jump = false, leftKey = false, rightKey = false, teleport = false, log = false;
 function getKey(){
     document.onkeydown = function(e){
         //analyse des touches clavier pressées
@@ -33,20 +34,24 @@ function getKey(){
     }
 }
 
+//Capture la position de la souris
 function getMouseLoc(){
     document.onclick = function(){
+        //Presser A
         if(teleport == true){
             //teleport le cube
             cube.x = window.event.clientX;
             cube.y = window.event.clientY;
         }
+        //Presser Z
         else if(log == true){
             //pose une buche
             logs.push (new Log(window.event.clientX,window.event.clientY));
         }
     }
 }
-var logs = [];
+
+var logs = [];  //tableau de buche
 
 //boucle d'affichage des frames
 function run(){
