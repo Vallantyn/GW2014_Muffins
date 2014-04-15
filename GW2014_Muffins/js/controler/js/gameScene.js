@@ -11,7 +11,7 @@ var gameScene = (function()
 			this.sb.Start();
 
 			for (var i = 0; i < this.nbMouton; i++) {
-				var nmouton = new Mouton(150 + i * 150,500 + i*20);
+				var nmouton = new Mouton(150 + i * 150,350 + i*20);
 				this.moutons.push(nmouton);
 			};
 		},
