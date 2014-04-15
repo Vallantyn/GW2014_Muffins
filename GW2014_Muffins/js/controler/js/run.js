@@ -70,9 +70,6 @@ function getMouseLoc(){
             console.log('detect')
         }
             cube.tp(window.event.clientX,window.event.clientY);
-
-
-        }
     }
 }
 
