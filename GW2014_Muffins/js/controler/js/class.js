@@ -20,7 +20,8 @@ var Cube = function (x,y){
     this.move = function(){
         this.speedY += gravity;
         this.y += this.speedY;
-        if (this.y > ground.y - ground.height && ground.x >= this.width && ground.x <= this.x ){
+        if (this.y > ground.y - ground.height && this.y <= ground.y + this.height && this.x <= ground.x + ground.width && this.x >= ground.x - this.width
+                ){
             this.countjump = 0;
             // Le cube est replacé au niveau du sol
             this.y = ground.y - ground.height;
