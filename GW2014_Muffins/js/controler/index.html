@@ -11,9 +11,15 @@
 </body>
 <script type="text/javascript" src="js/requestanimframe.js"></script>
 <script type="text/javascript" src="js/run.js"></script>
+<script type="text/javascript" src="js/mouton.js"></script>
+<script type="text/javascript" src="js/gameScene.js"></script>
+<script type="text/javascript" src="js/skillBar.js"></script>
 <script type="text/javascript" src="js/class.js"></script>
 <script type="text/javascript" src="../ui.js"></script>
-<script type="text/javascript">		
+
+<script type="text/javascript">
+			
+
 //Fonction  d'initialisation - se lance quand la page HTML est lue
 window.onload = function(){
 	//déclaration du context
@@ -25,6 +31,8 @@ window.onload = function(){
 	//floor = 500;
 	ground = new Ground (100, 350);
 	cube = new Cube (100,250);
+	
+	gameScene.Start();
 	repletion = new Repletion (10,10);
 	run();	
 }
