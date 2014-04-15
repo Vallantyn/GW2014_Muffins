@@ -33,6 +33,7 @@ function run(){
 	context.clearRect(0, 0, context.canvas.width, context.canvas.height);
     getKey();
     repletion.draw();
+    ground.draw();
 	//affichage et deplacement du cube
 	cube.draw();
 	cube.move();

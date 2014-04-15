@@ -2,20 +2,22 @@ var Cube = function (x,y){
     //classe du cube
     this.x = x;
     this.y = y;
+    this.width = 50;
+    this.height = 50;
     this.countjump = 0;
     this.speedY = 0;
     this.impulsion = 10;
     this.draw = function(){
-        context.fillStyle = "blue";
-        context.fillRect(this.x, this.y,50,50);
+        context.fillStyle = "green";
+        context.fillRect(this.x, this.y,this.width,this.height);
     }
     this.move = function(){
         this.speedY += gravity;
         this.y += this.speedY;
-        if (this.y > floor){
+        if (this.y > ground.y - ground.height && ground.x >= this.width && ground.x <= this.x ){
             this.countjump = 0;
             // Le cube est replacé au niveau du sol
-            this.y = floor;
+            this.y = ground.y - ground.height;
             // Annuler la vitesse actuelle en cas de contact avec le sol
             this.speedY = 0;
         }
@@ -23,32 +25,32 @@ var Cube = function (x,y){
         this.x += (rightKey - leftKey) * 4;
         if(jump == true && this.countjump < 9){
             this.countjump++;
-            this.speedY =-this.impulsion;
+            this.speedY = -this.impulsion;
         }
     }
 }
 
-var Repletion = function (x,y){
-    //classe de la jauge de faim
+//En dev pas fonctionnel
+var Ground = function (x,y){
+    //classe du sol
     this.x = x;
     this.y = y;
-    this.meter = 160;
+    this.width = 50;
+    this.height = 50;
     this.draw = function(){
-        //affichage de la jauge
-        if(frame % 20 == 0){
-            this.meter--;
-        }
-        if(this.meter <= this.x){
-            this.meter = 0;
-        }
-        /*if(condition){
-            //recharge de la jauge, placer une condition cuissedepoulet == true;
-            this.meter += 30;
-        }
-        if(this.meter > 160){
-            this.meter = 160;
-        }*/
         context.fillStyle = "brown";
-        context.fillRect(this.x, this.y,this.meter,50);
+        context.fillRect(this.x, this.y,this.width,this.height);
+    }
+}
+
+var Water = function (x,y){
+    //class de l'eau
+    this.x = x;
+    this.y = y;
+    this.width = 50;
+    this.height = 50;
+    this.draw = function(){
+        context.fillStyle = "blue";
+        context.fillRect(this.x, this.y,this.width,this.height);
     }
 }
