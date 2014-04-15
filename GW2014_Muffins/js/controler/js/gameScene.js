@@ -41,7 +41,12 @@ var gameScene = (function()
 		
 
 		},
-
+		KillSheep : function (target)
+		{
+			target.Die();
+			var a = this.moutons.splice(this.moutons.indexOf(target),1);
+			console.log(a);
+		},
 		ClosestSheepTo : function(target, moutonList)
 		{
 			var ret = moutonList[0];

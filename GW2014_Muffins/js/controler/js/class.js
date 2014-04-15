@@ -9,8 +9,9 @@ var Cube = function (x,y){
     this.impulsion = 10;
     this.range = 200;
     this.color = "blue";
-    this.hunger = 0;
+    this.hunger = 1;
     this.hungerReplenish = 0.2;
+    this.hungerCost = 0.1;
     this.draw = function(){
         context.fillStyle = this.color;
         context.fillRect(this.x, this.y,this.width,this.height);
@@ -34,7 +35,7 @@ var Cube = function (x,y){
     }
     this.desguise = function()
     {
-        if(true)//this.hunger < 1)
+        if(this.hunger > 0)
         {
 
             if(this.color != "red") 
@@ -50,9 +51,11 @@ var Cube = function (x,y){
 
             }
 
-            this.hunger += this.hungerCost;
-        }
+            this.hunger -= this.hungerCost;
+            if(this.hunger < 0) this.hunger = 0;
 
+        }
+        repletion.setHunger(this.hunger);
 
     }
 
@@ -62,9 +65,11 @@ var Cube = function (x,y){
         var s = gameScene.ClosestSheepTo(this, gameScene.moutons);
         if(Math.Dist(this, s) < this.range)
         {
-            s.Die();
-            this.hunger -= this.hungerReplenish;
+            gameScene.KillSheep(s);
+            this.hunger += this.hungerReplenish;
+            if(this.hunger > 1) this.hunger = 1;
         }
+        repletion.setHunger(this.hunger);
 
     }
 }
