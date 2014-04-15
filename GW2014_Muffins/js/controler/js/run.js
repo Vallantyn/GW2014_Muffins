@@ -45,17 +45,22 @@ function getKey(){
 function getMouseLoc(){
     document.onclick = function(){
         //Presser A
-        //if(teleport == true){
         if(Input.teleport == true){
             //teleport le cube
             cube.x = window.event.clientX;
             cube.y = window.event.clientY;
         }
         //Presser Z
-        //else if(log == true){
         else if(Input.log == true){
             //pose une buche
             logs.push (new Log(window.event.clientX,window.event.clientY));
+        }
+        else if(/*Input.boom == true*/ window.event.clientX > cube.x && window.event.clientX < cube.x + cube.width
+                && window.event.clientY > cube.y && window.event.clientY < cube.y + cube.height){
+            /*for (var i = 0; i < logs.length; i++){
+                
+            }*/
+            console.log('detect')
         }
     }
 }
