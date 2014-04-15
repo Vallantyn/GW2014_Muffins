@@ -12,7 +12,7 @@ skillBar.prototype.Start = function()
 
 }
 
-skillBar.prototype.Render = function()
+skillBar.prototype.Update = function()
 {
 	for (var i = 0; i < this.skillButtons.length; i++) {
 		this.skillButtons[i].Render();

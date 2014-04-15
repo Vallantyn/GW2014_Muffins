@@ -4,6 +4,7 @@ var gameScene = (function()
 
 		nbMouton : 5,
 		moutons : [],
+		deadMeat : [],
 		sb : [],
 		Start : function()
 		{
@@ -21,15 +22,27 @@ var gameScene = (function()
 			if(this.sb)
 				this.sb.Render();
 
-			var sheepDIE = this.ClosestSheepTo(cube,this.moutons);
-			var a = sheepDIE.Flee(cube);
+			if(this.moutons.length > 0)
+			{
+				
 
-			for (var i = 0; i < this.moutons.length; i++) {
-				this.moutons[i].Render();
-				if(!this.moutons[i].Flee(cube))
-					this.moutons[i].Follow(this.ClosestSheepTo(this.moutons[i],this.moutons));
-			};
+				for (var i = 0; i < this.moutons.length; i++) {
+					this.moutons[i].Render();
+					var f = false;
+					for (var j = 0; j < logs.length; j++) {
+						if(this.moutons[i].Flee(logs[j]))
+							f = true;
+					};
+					if(this.moutons[i].Flee(cube))
+						f = true;
 
+					if(!f) this.moutons[i].Follow(this.ClosestSheepTo(this.moutons[i],this.moutons));
+				};
+				
+			}
+			for (var i = 0; i < this.deadMeat.length; i++) {
+				this.deadMeat[i].Render();
+			}
 /*
 				if(this.moutons[i] == sheepDIE )
 					if(!a) this.moutons[i].Follow(this.ClosestSheepTo(this.moutons[i]));
@@ -45,7 +58,7 @@ var gameScene = (function()
 		{
 			target.Die();
 			var a = this.moutons.splice(this.moutons.indexOf(target),1);
-			console.log(a);
+			this.deadMeat.push(a[0]);
 		},
 		ClosestSheepTo : function(target, moutonList)
 		{

@@ -25,7 +25,7 @@ Mouton.prototype =
 	{
 		var d = Math.Dist(obj, this)
 
-		if(d < this.distOfView * 0.5 && d >= this.distMini)
+		if(d < this.distOfView * 0.75 && d >= this.distMini)
 		{
 
 				if(obj.x > this.x)
@@ -56,17 +56,17 @@ Mouton.prototype =
 	Render : function ()
 	{
 		//TEMP
-		if(!this.isDead)
-		{
-			context.fillStyle = "red";
+		
+			context.fillStyle =  this.color;
 			context.fillRect(this.x - 46, this.y - 46,92,92);
 			context.strokeStyle = "#FFF";
 			context.strokeRect(this.x - 46, this.y - 46,92,92);
-		}
+		
 	},
 	Die : function()
 	{
 		this.isDead = true;
+		this.color = "#777";
 
 	},
 
