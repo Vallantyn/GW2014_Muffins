@@ -11,6 +11,7 @@
 </body>
 <script type="text/javascript" src="js/requestanimframe.js"></script>
 <script type="text/javascript" src="js/run.js"></script>
+<script type="text/javascript" src="js/class.js"></script>
 <script type="text/javascript">		
 //Fonction  d'initialisation - se lance quand la page HTML est lue
 window.onload = function(){
@@ -22,6 +23,7 @@ window.onload = function(){
 	gravity = 0.8;
 	floor = 500;
 	cube = new Cube (100,250);
+	repletion = new Repletion (10,10);
 	run();	
 }
 </script>
