@@ -30,6 +30,18 @@ var Cube = function (x,y){
     }
 }
 
+var Log = function (x,y){
+    //classe du sol
+    this.x = x;
+    this.y = y;
+    this.width = 50;
+    this.height = 50;
+    this.draw = function(){
+        context.fillStyle = "brown";
+        context.fillRect(this.x, this.y,this.width,this.height);
+    }
+}
+
 //En dev pas fonctionnel
 var Ground = function (x,y){
     //classe du sol
@@ -38,7 +50,7 @@ var Ground = function (x,y){
     this.width = 50;
     this.height = 50;
     this.draw = function(){
-        context.fillStyle = "brown";
+        context.fillStyle = "black";
         context.fillRect(this.x, this.y,this.width,this.height);
     }
 }
