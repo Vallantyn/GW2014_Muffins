@@ -13,6 +13,10 @@
 <script type="text/javascript" src="js/control.js"></script>
 <script type="text/javascript" src="js/spaceship.js"></script>
 <script type="text/javascript" src="js/run.js"></script>
+<script type="text/javascript" src="js/mouton.js"></script>
+<script type="text/javascript" src="js/gameScene.js"></script>
+<script type="text/javascript" src="js/skillBar.js"></script>
+
 
 <script type="text/javascript">
 var canvasWidth, canvasHeight;
@@ -53,6 +57,13 @@ document.onkeyup = function(e){
 	else if (event.keyCode == 39){
 		toucheDroite = false;
 	}
+
+	if (event.keyCode == 49){
+		cube.desguise();
+	}
+	if (event.keyCode == 50){
+		cube.eatSheep();
+	}
 }
 				
 //Fonction  d'initialisation - se lance quand la page HTML est lue
@@ -64,6 +75,8 @@ window.onload = function(){
 	gravity = 0.8;
 	floor = 500;
 	cube = new Cube (100,250);
+	
+	gameScene.Start();
 	run();	
 }
 </script>
