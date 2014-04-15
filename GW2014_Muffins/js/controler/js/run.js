@@ -25,10 +25,18 @@ function getKey(){
     }
 }
 
+function getMouseLoc(){
+    document.onclick = function(){
+        cube.x = window.event.clientX;
+        cube.y = window.event.clientY;
+    }
+}
+
 //boucle d'affichage des frames
 function run(){
 	//---------- CODE DE LA BOUCLE D'AFFICHAGE --------------------
     frame++;
+    document.body.onmousemove = getMouseLoc;
 	requestAnimFrame(run);
 	context.clearRect(0, 0, context.canvas.width, context.canvas.height);
     getKey();

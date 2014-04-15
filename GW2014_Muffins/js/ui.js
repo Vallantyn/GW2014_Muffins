@@ -18,7 +18,14 @@ var Repletion = function (x,y){
         if(this.meter > 160){
             this.meter = 160;
         }*/
-        context.fillStyle = "red";
+        context.save();
+        context.globalAlpha = 0.7;
+        var my_gradient=context.createLinearGradient(0,0,this.meter,0);
+        my_gradient.addColorStop(0,"red");
+        my_gradient.addColorStop(0.5,"orange");
+        my_gradient.addColorStop(1,"yellow");
+        context.fillStyle=my_gradient;
         context.fillRect(this.x, this.y,this.meter,50);
+        context.restore();
     }
 }
