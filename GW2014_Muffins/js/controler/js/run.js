@@ -17,7 +17,10 @@ function getKey(){
         }
         else if (event.keyCode == 52){
             Input.teleport = false;
-            Input.log = true;
+            //Input.log = true;
+        }
+        else if (event.keyCode == 53){
+            Input.boom = true;
         }
     }
     document.onkeyup = function(e){
@@ -44,7 +47,6 @@ function getKey(){
         if (event.keyCode == 52){
             cube.putLog();
         }
-
     }
 }
 
@@ -62,8 +64,8 @@ function getMouseLoc(){
             //pose une buche
             logs.push (new Log(window.event.clientX,window.event.clientY));
         }
-        else if(/*Input.boom == true*/ window.event.clientX > cube.x && window.event.clientX < cube.x + cube.width
-                && window.event.clientY > cube.y && window.event.clientY < cube.y + cube.height){
+        else if(Input.boom == true && window.event.clientX > ground.x && window.event.clientX < ground.x + ground.width
+                && window.event.clientY > ground.y && window.event.clientY < ground.y + ground.height){
             /*for (var i = 0; i < logs.length; i++){
                 
             }*/

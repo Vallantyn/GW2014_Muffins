@@ -2,8 +2,10 @@ var Cube = function (x,y){
     //classe du cube
     this.x = x;
     this.y = y;
-    this.width = 50;
-    this.height = 50;
+    this.width = 80;
+    this.height = 80;
+    this.anim = 0;
+    this.situation;
     this.countjump = 0;
     this.speedY = 0;
     this.speedX = 4;
@@ -14,8 +16,24 @@ var Cube = function (x,y){
     this.hungerReplenish = 0.2;
     this.hungerCost = 0.1;
     this.draw = function(){
-        context.fillStyle = this.color;
-        context.fillRect(this.x, this.y,this.width,this.height);
+        context.drawImage(loupImage, this.anim * 80, this.situation * 80, 80, 80, this.x, this.y, 80, 80);
+        if(Input.rightKey == true){
+            this.situation = 2;
+        }
+        else if(Input.leftKey == true){
+            this.situation = 1;
+        }
+        else{
+            this.situation = 0;
+        }
+        if(frame % 10 == 0){
+            this.anim++;
+            if(this.anim == 4){
+                this.anim = 0;
+            }
+        }
+        //context.fillStyle = this.color;
+        //context.fillRect(this.x, this.y,this.width,this.height);
     }
     this.move = function(){
         this.speedY += gravity;
@@ -58,6 +76,11 @@ var Cube = function (x,y){
 
         }
         repletion.setHunger(this.hunger);
+
+    }
+
+    this.boom = function ()
+    {
 
     }
 
@@ -125,7 +148,7 @@ var Ground = function (x,y){
     //classe du sol
     this.x = x;
     this.y = y;
-    this.width = 500;
+    this.width = 1000;
     this.height = 50;
     this.draw = function(){
         context.fillStyle = "black";
@@ -151,5 +174,6 @@ var Input =
     rightKey : false,
     jump : false,
     teleport : false,
-    log : false
+    log : false,
+    boom : false
 }
