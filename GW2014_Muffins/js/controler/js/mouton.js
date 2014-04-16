@@ -5,9 +5,11 @@ function Mouton(x,y, ID)
 	this.x = x;
 	this.y = y;
 
+
  	this.grounded = false;
     this.collider = new TileCollider(this);
 	this.distOfView = 150 + Math.random() * 50;
+
 }
 
 Mouton.prototype = 
@@ -29,6 +31,7 @@ Mouton.prototype =
 	Move : function(x,y)
 	{
 		this.x += x;
+
 		this.y += y;
        	var tx = this.x;
         this.x += x;
@@ -39,6 +42,7 @@ Mouton.prototype =
                 break;
             }
         }
+
 	},
 	Follow : function(obj)
 	{

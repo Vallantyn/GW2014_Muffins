@@ -1,4 +1,3 @@
-var jump = false, leftKey = false, rightKey = false, teleport = false, log = false;
 function getKey(){
     document.onkeydown = function(e){
         //analyse des touches clavier pressées
@@ -17,7 +16,10 @@ function getKey(){
         }
         else if (event.keyCode == 52){
             Input.teleport = false;
-            Input.log = true;
+            //Input.log = true;
+        }
+        else if (event.keyCode == 53){
+            Input.boom = true;
         }
     }
     document.onkeyup = function(e){
@@ -44,8 +46,21 @@ function getKey(){
         if (event.keyCode == 52){
             cube.putLog();
         }
-
     }
+}
+
+var animations = [0,0,0,0,0];
+
+//Actuellement cause des problemes chez les moutons
+//Solution envisage donné un index unique a la creation de chaque moutons
+function drawImage(src, x, y, width, height, position, speed, maxFrame, index){
+    if(frame % speed == 0){
+        animations[index] = animations[index] += 1;
+        if(animations[index] == maxFrame){
+            animations[index] = 0;
+        }
+    }
+    context.drawImage(src, animations[index] * width, position * height, width, height, x, y, width, height);
 }
 
 //Capture la position de la souris
@@ -65,11 +80,10 @@ function getMouseLoc(){
         else */
         //Les log et teleport sont géré ds le cube directement et mappé sur les touches 3 et 4
 
-            if(/*Input.boom == true*/ window.event.clientX > cube.x && window.event.clientX < cube.x + cube.width
-                && window.event.clientY > cube.y && window.event.clientY < cube.y + cube.height){
-            /*for (var i = 0; i < logs.length; i++){
-                
-            }*/
+      
+        if(Input.boom == true && window.event.clientX > ground.x && window.event.clientX < ground.x + ground.width
+                && window.event.clientY > ground.y && window.event.clientY < ground.y + ground.height){
+            
             console.log('detect')
         }
         
@@ -88,7 +102,19 @@ function run(){
     frame++;
     document.body.onmousemove = getMouseLoc;
     requestAnimFrame(run);
+
+/*    context.clearRect(0, 0, context.canvas.width, context.canvas.height);
+    for (var i = 0; i < logs.length; i++){
+        logs[i].draw();
+    }
     
+    ground.draw();
+	//affichage et deplacement du cube
+	cube.draw();
+	cube.move();
+    cube2.draw();
+    cube2.move();
+    repletion.draw();*/
     gameScene.Update();
 
 }

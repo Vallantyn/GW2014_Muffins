@@ -5,10 +5,13 @@ var Cube = function (x,y){
     this.y = y;
     this.width = 184;
     this.height = 92;
-    this.countjump = 0;
     this.speedY = 0;
     this.speedX = 6;
     this.impulsion = 8;
+   
+    this.anim = 0;
+    this.situation;
+   
     this.range = 200;
     this.color = "blue";
     this.hunger = 1;
@@ -20,6 +23,7 @@ var Cube = function (x,y){
     this.draw = function(){
         context.fillStyle = this.color;
         context.fillRect(this.x- this.width/2, this.y - this.height/2,this.width,this.height);
+
     }
     this.move = function(){
        
@@ -116,6 +120,11 @@ var Cube = function (x,y){
 
     }
 
+    this.boom = function ()
+    {
+
+    }
+
     this.eatSheep = function()
     {
         //Je sais, c'est horrible
@@ -181,6 +190,7 @@ var Ground = function (x,y, width, height){
     this.y = y;
     this.width = width;
     this.height = height;
+
     this.draw = function(){
         context.fillStyle = "black";
         context.fillRect(this.x, this.y,this.width,this.height);
@@ -205,5 +215,6 @@ var Input =
     rightKey : false,
     jump : false,
     teleport : false,
-    log : false
+    log : false,
+    boom : false
 }
