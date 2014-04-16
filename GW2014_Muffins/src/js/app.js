@@ -7,16 +7,17 @@ requirejs.config({
     //never includes a ".js" extension since
     //the paths config could be for a directory.
     paths: {
-        lib: '../../lib'
+        lib: '../../lib',
+        manifest: '../..',
+        scenes: '../../assets/scenes',
+        levels: '../../assets/levels',
     }
 });
 
 // Start the main app logic.
 // requiring (src/js/) main.js
-requirejs(['main'],
-function (main)
+requirejs(['main', 'errorCodes'],
+function (main, err)
 {
-    //
-    // DO MAIN THINGZ HERE DOOD =D
-    //
+    console.log("APP EXITED WITH: " + err[main()]);
 });

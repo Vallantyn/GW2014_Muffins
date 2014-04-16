@@ -1,0 +1,13 @@
+html, body 
+{
+    background-color: black;
+    text-align: center;
+
+    margin: 0;
+    padding: 0;
+}
+
+#game_canvas 
+{
+    background-color: darkgray;
+}
