@@ -1,4 +1,3 @@
-var jump = false, leftKey = false, rightKey = false, teleport = false, log = false;
 function getKey(){
     document.onkeydown = function(e){
         //analyse des touches clavier pressées
@@ -50,6 +49,19 @@ function getKey(){
     }
 }
 
+var animations = [0,0,0,0,0];
+
+function drawImage(src, x, y, width, height, position, speed, maxFrame, index){
+    if(frame % speed == 0){
+        animations[index] = animations[index] += 1;
+        if(animations[index] == maxFrame){
+            animations[index] = 0;
+        }
+    }
+    context.drawImage(src, animations[index] * width, position * height, width, height, x, y, width, height);
+    
+}
+
 //Capture la position de la souris
 function getMouseLoc(){
     document.onclick = function(){
@@ -92,6 +104,8 @@ function run(){
 	//affichage et deplacement du cube
 	cube.draw();
 	cube.move();
+    cube2.draw();
+    cube2.move();
     repletion.draw();
     gameScene.Update();
 

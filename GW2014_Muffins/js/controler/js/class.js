@@ -16,7 +16,8 @@ var Cube = function (x,y){
     this.hungerReplenish = 0.2;
     this.hungerCost = 0.1;
     this.draw = function(){
-        context.drawImage(loupImage, this.anim * 80, this.situation * 80, 80, 80, this.x, this.y, 80, 80);
+        //context.drawImage(loupImage, this.anim * this.width, this.situation * this.height, 80, 80, this.x, this.y, 80, 80);
+        drawImage(loupImage, this.x, this.y, this.width, this.height, this.situation, 10, 4, 0);
         if(Input.rightKey == true){
             this.situation = 2;
         }
@@ -26,12 +27,12 @@ var Cube = function (x,y){
         else{
             this.situation = 0;
         }
-        if(frame % 10 == 0){
+        /*if(frame % 10 == 0){
             this.anim++;
             if(this.anim == 4){
                 this.anim = 0;
             }
-        }
+        }*/
         //context.fillStyle = this.color;
         //context.fillRect(this.x, this.y,this.width,this.height);
     }
