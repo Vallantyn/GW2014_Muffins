@@ -9,13 +9,20 @@
 		
 	</div>
 </body>
+<script type="text/javascript" src="testmap.json"></script>
+
+<script type="text/javascript" src="js/Collisions.js"></script>
+<script type="text/javascript" src="js/TileCollider.js"></script>
+
 <script type="text/javascript" src="js/requestanimframe.js"></script>
 <script type="text/javascript" src="js/run.js"></script>
 <script type="text/javascript" src="js/mouton.js"></script>
 <script type="text/javascript" src="js/gameScene.js"></script>
-<script type="text/javascript" src="js/skillBar.js"></script>
 <script type="text/javascript" src="js/class.js"></script>
+<script type="text/javascript" src="js/mapParser.js"></script>
+
 <script type="text/javascript" src="../ui.js"></script>
+
 
 <script type="text/javascript">
 			
@@ -29,11 +36,14 @@ window.onload = function(){
 	canvasHeight = canvas.height = 768;
 	gravity = 0.8;
 	//floor = 500;
-	ground = new Ground (100, 350);
-	cube = new Cube (100,100);
+	//ground = new Ground (100, 350, 1200,100);
+	cube = new Cube (300,10);
+	
+	repletion = new Repletion (10,10);
+
 	
 	gameScene.Start();
-	repletion = new Repletion (10,10);
+
 	run();	
 }
 </script>

@@ -45,7 +45,7 @@ function skillBar()
 skillBar.prototype.Start = function()
 {
     //console.log(this)
-    for (var i = 0; i < 5; i++) {
+    for (var i = 0; i < 6; i++) {
         this.skillButtons.push(new skillButton(35 + i * 50, 100, 50,50));
     };
 
@@ -78,10 +78,17 @@ skillButton.prototype =
     y : 0,
     width : 50,
     height : 50,
+    img : null,
     action : function(){},
     Render : function()
     {
-        context.strokeStyle = "#FFF";
-        context.strokeRect(this.x - this.width/2, this.y -  this.height/2,this.width,this.height);
+        if(this.img != null)
+            context.drawImage(this.img, this.x, this.y, this.width, this.height);
+        else
+        {
+            context.strokeStyle = "#FFF";
+            context.strokeRect(this.x - this.width/2, this.y -  this.height/2,this.width,this.height);
+            
+        }
     }
 }
