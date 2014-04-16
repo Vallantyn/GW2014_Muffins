@@ -27,6 +27,7 @@ var gameScene = (function()
 				
 
 				for (var i = 0; i < this.moutons.length; i++) {
+					this.moutons[i].Move(0,0);
 					this.moutons[i].Render();
 					var f = false;
 					for (var j = 0; j < logs.length; j++) {

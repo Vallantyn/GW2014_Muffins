@@ -3,7 +3,7 @@ function Mouton(x,y)
 {
 	this.x = x;
 	this.y = y;
-
+	this.speedY = 0;
 	this.distOfView = 200 + Math.random() * 100;
 }
 
@@ -19,7 +19,17 @@ Mouton.prototype =
 	Move : function(x,y)
 	{
 		this.x += x;
-		this.y += y;
+		//this.y += y;
+		this.speedY += gravity;
+		this.y += this.speedY;
+		if (this.y > ground.y - ground.height && this.y <= ground.y + 50 && this.x <= ground.x + ground.width 
+		    && this.x >= ground.x - 50){
+		    // Le cube est replacé au niveau du sol
+		    this.y = ground.y - ground.height;
+		    // Annuler la vitesse actuelle en cas de contact avec le sol
+		    this.speedY = 0;
+		}
+		this.y++;
 	},
 	Follow : function(obj)
 	{
