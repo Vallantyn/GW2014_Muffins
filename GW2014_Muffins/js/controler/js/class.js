@@ -7,7 +7,7 @@ var Cube = function (x,y){
     this.countjump = 0;
     this.speedY = 0;
     this.speedX = 4;
-    this.impulsion = 10;
+    this.impulsion = 12;
     this.range = 200;
     this.color = "blue";
     this.hunger = 1;
@@ -125,7 +125,7 @@ var Ground = function (x,y){
     //classe du sol
     this.x = x;
     this.y = y;
-    this.width = 50;
+    this.width = 500;
     this.height = 50;
     this.draw = function(){
         context.fillStyle = "black";

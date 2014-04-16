@@ -2,6 +2,7 @@ var Repletion = function (x,y){
     //classe de la jauge de faim
     this.x = x;
     this.y = y;
+    this.height = 50;
     this.meter = 160;
     this.fillRatio = 1;
     this.draw = function(){
@@ -20,7 +21,11 @@ var Repletion = function (x,y){
             this.meter = 160;
         }*/
         context.save();
-        context.globalAlpha = 0.7;
+        context.globalAlpha = 0.9;
+        //La jauge de faim devient moins opaque quand le joueur rentre dedans
+        if (cube.x + cube.width > this.x && cube.x < this.meter * this.fillRatio && cube.y < this.y + this.height){
+            context.globalAlpha = 0.4;
+        }
         var my_gradient=context.createLinearGradient(0,0,this.meter,0);
         my_gradient.addColorStop(0,"red");
         my_gradient.addColorStop(0.5,"orange");

@@ -87,11 +87,12 @@ function run(){
     for (var i = 0; i < logs.length; i++){
         logs[i].draw();
     }
-    repletion.draw();
+    
     ground.draw();
 	//affichage et deplacement du cube
 	cube.draw();
 	cube.move();
+    repletion.draw();
     gameScene.Update();
 
 }
