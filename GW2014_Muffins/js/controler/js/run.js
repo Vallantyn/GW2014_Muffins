@@ -66,9 +66,7 @@ function getMouseLoc(){
         }
         else if(Input.boom == true && window.event.clientX > ground.x && window.event.clientX < ground.x + ground.width
                 && window.event.clientY > ground.y && window.event.clientY < ground.y + ground.height){
-            /*for (var i = 0; i < logs.length; i++){
-                
-            }*/
+            
             console.log('detect')
         }
             cube.tp(window.event.clientX,window.event.clientY);
