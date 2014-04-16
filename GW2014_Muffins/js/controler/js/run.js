@@ -51,6 +51,8 @@ function getKey(){
 
 var animations = [0,0,0,0,0];
 
+//Actuellement cause des problemes chez les moutons
+//Solution envisage donné un index unique a la creation de chaque moutons
 function drawImage(src, x, y, width, height, position, speed, maxFrame, index){
     if(frame % speed == 0){
         animations[index] = animations[index] += 1;
@@ -59,7 +61,6 @@ function drawImage(src, x, y, width, height, position, speed, maxFrame, index){
         }
     }
     context.drawImage(src, animations[index] * width, position * height, width, height, x, y, width, height);
-    
 }
 
 //Capture la position de la souris

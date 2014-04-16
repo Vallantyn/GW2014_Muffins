@@ -33,8 +33,6 @@ var Cube = function (x,y){
                 this.anim = 0;
             }
         }*/
-        //context.fillStyle = this.color;
-        //context.fillRect(this.x, this.y,this.width,this.height);
     }
     this.move = function(){
         this.speedY += gravity;
