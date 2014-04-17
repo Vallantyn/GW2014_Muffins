@@ -167,7 +167,11 @@
                 {
                     if (sheep.collider.CheckGround(gameScene.mapP.wall[i]))
                     {
-                        sheep.x = tx;
+                        if(sheep.x > gameScene.mapP.wall[i].x)
+                            sheep.x = gameScene.mapP.wall[i].x + gameScene.mapP.wall[i].width/2 ; 
+                        else
+                            sheep.x = gameScene.mapP.wall[i].x - gameScene.mapP.wall[i].width/2 ; 
+
                         break;
                     }
                 }
@@ -245,6 +249,7 @@
                         else sheep.flag &= ~flags.grounded;
                     };
                 }
+
 
                 sheep.speedY += (sheep.flag & flags.grounded) ? 0 : gameScene.gravity;
                 sheep.y += sheep.speedY;

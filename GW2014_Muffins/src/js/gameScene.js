@@ -93,10 +93,16 @@
 
             resetBuffer();
 
+            wolf = new character(1280/2 - 184/2, 10);
+            base.AddChild(wolf);
+
             base.AddChild({
             Render: function (cx)
             {
+                //cx.save();
+               // cx.translate(150,0);
                 cx.drawImage(mapImg.canvas, 0, 0);
+                //cx.restore();
             }});
 
             for (var i = 0; i < 7; i++)
@@ -108,12 +114,23 @@
                 base.AddChild(s);
             }
 
-            wolf = new character(300, 10);
-            base.AddChild(wolf);
 
             _inited = true;
         }
 
+        function moveMap(x,y)
+        {
+            for (var i = 0; i < tiledMap.length; i++) {
+                for (var j = 0; j < tiledMap[i].length; j++) {
+                    tiledMap[i][j].move(x,y);
+                };
+            };
+
+            for (var i = 0; i < sheeps.length; i++) {
+                sheeps[i].log.x += x;
+                sheeps[i].log.y += y;
+            };
+        }
 
         function resetBuffer()
         {
@@ -168,7 +185,8 @@
             RemoveChild: base.RemoveChild,
             UnLoad: unLoad,
             resetBuffer : resetBuffer,
-            killSheep : killSheep
+            killSheep : killSheep,
+            moveMap : moveMap
         };
 
         return gameScene;

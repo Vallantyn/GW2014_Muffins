@@ -6,6 +6,7 @@
         this.wall = [];
         this.wallground = [];
         this.killing = [];
+        this.offset = 0;
     };
 
     mapParser.prototype.tileInXY = function (tileMap, x, y) {
@@ -90,6 +91,12 @@
         this.heightInImg = heightInImg;
 
         this.img = img;
+    }
+
+    Tile.prototype.move = function(x,y)
+    {
+    	this.x += x;
+    	this.y += y;
     }
 
     Tile.prototype.draw = function (ctx) {

@@ -1,4 +1,4 @@
-﻿define(['spriteRenderer', 'spriteAnimation'], function ( spriteRenderer, spriteAnimation )
+﻿define(['spriteRenderer', 'spriteAnimation', "sceneManager"], function ( spriteRenderer, spriteAnimation, sceneManager )
 {
     return function SheepGFX()
     {
