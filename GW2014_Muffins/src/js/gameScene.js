@@ -31,7 +31,10 @@
             for (var i = 0; i < 7; i++)
             {
                 var dx = 300 - Math.random() * 600;
-                base.AddChild(new sheep(600 + dx , 250, i+1));
+
+                var s = new sheep(600 + dx , 250, i+1);
+                sheeps.push(s);
+                base.AddChild(s);
             }
 
             wolf = new character(300, 10);

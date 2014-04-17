@@ -117,6 +117,8 @@
         };
 
         function desguise() {
+             console.log("2 : Desguise ")
+
             if (wolf.hunger > 0) {
                 if (wolf.color != "red") {
                     wolf.color = "red";
@@ -140,11 +142,12 @@
 
         function eatSheep() {
             //Je sais, c'est horrible
-
-            if (gameScene.moutons.length > 0) {
-                var s = gameScene.ClosestSheepTo(wolf, gameScene.moutons);
+            console.log("1 : Eat Sheep ")
+            if (gameScene.sheeps.length > 0) {
+                var s = gameScene.ClosestSheepTo(wolf, gameScene.sheeps);
                 if (Math.Dist(wolf, s) < wolf.range) {
                     gameScene.KillSheep(s);
+                    console.log(s)
                     wolf.hunger += wolf.hungerReplenish;
                     if (wolf.hunger > 1) wolf.hunger = 1;
                 }
@@ -153,6 +156,8 @@
         }
 
         function tp(x, y) {
+                        console.log("4 : Teleport ")
+
             if (wolf.hunger > 0) {
                 wolf.x = x;
                 wolf.y = y;
@@ -163,17 +168,22 @@
         }
 
         function putLog() {
+            console.log("3 : Put Log ")
+
             if (wolf.hunger > 0) {
                 //pose une buche
                 gameScene.logs.push(new Log(wolf.x, wolf.y));
                 wolf.hunger -= wolf.hungerCost;
                 if (wolf.hunger < 0) wolf.hunger = 0;
+
                 repletion.setHunger(wolf.hunger);
             }
         }
 
         function dig()
         {
+            console.log("5 : Dig ")
+
             if (wolf.hunger > 0) 
             {
               //DIG
@@ -182,13 +192,20 @@
 
                 for (var i = 0; i < tm.length; i++) 
                 {
-                    var t = mp.tileInXY(tm[i], wolf.x,wolf.y + wolf.height);
+                    var t = mp.tileInXY(tm[i], wolf.x+ wolf.width/2,wolf.y + wolf.height);
                     if(t)
                     {
-                        console.log(t);
                         t.img = null;
-                        console.log(mp.walkable.length)
-                        mp.walkable.splice(mp.walkable.indexOf(t),1);
+                        var ind = mp.walkable.indexOf(t);
+                        if(ind == -1)
+                        {
+                            ind = mp.wallground.indexOf(t);
+                            mp.wallground.splice(ind,1);
+
+                        }
+                        else
+                            mp.walkable.splice(ind,1);
+
                         sceneManager.currentScene.resetBuffer();
                         break;
                     } 
@@ -203,26 +220,12 @@
 
         function bridge(x, y)
         {
+            console.log("6 : Bridge ")
+
             if (wolf.hunger > 0) 
             {
                 wolf.isBridge = true;
-                //DIG
-                var tm = sceneManager.currentScene.tiledMap;
-                var mp = sceneManager.currentScene.mapP;
-
-                for (var i = 0; i < tm.length; i++) 
-                {
-                    var t = mp.tileInXY(tm[i], x,y);
-                    if(t)
-                    {
-                        console.log(t);
-                        t.img = null;
-                        console.log(mp.walkable.length)
-                        mp.walkable.splice(mp.walkable.indexOf(t),1);
-                        sceneManager.currentScene.resetBuffer();
-                        break;
-                    } 
-                };
+               
 
                 wolf.hunger -= wolf.hungerCost;
                 if (wolf.hunger < 0) wolf.hunger = 0;
