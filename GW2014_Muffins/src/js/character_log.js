@@ -111,13 +111,18 @@
             wolf.y += wolf.speedY;
 
             var x = wolf.x;
-            wolf.x += /*(Input.rightKey - Input.leftKey)*/ wolf.dir * wolf.speedX;
+            gameScene.moveMap(-wolf.dir * wolf.speedX, 0);
+            // wolf.x += /*(Input.rightKey - Input.leftKey)*/ wolf.dir * wolf.speedX;
             for (var i = 0; i < gameScene.mapP.wallground.length; i++) {
                 if (wolf.collider.CheckGround(gameScene.mapP.wall[i])) {
-                    wolf.x = x;
+                    gameScene.moveMap(wolf.dir * wolf.speedX, 0);
+
                     break;
                 }
             }
+
+            gameScene.resetBuffer();
+
         };
 
         function desguise() {
