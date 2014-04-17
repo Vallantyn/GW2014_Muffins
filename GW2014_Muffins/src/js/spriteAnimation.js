@@ -1,4 +1,4 @@
-﻿define(function ()
+﻿define(['eventManager'], function (eventManager)
 {
     return function SpriteAnimation(row, col, frames, spd)
     {
@@ -9,6 +9,13 @@
 
         var _step = 0;
         var _frame = 0;
+
+        var _events = {};
+
+        function addEvent(frame, name)
+        {
+            _events[frame] = name;
+        }
 
         function init()
         {
@@ -23,6 +30,7 @@
             {
                 _frame = 0;
                 _step++;
+                _events[_step] && eventManager.Fire(_events[_step]);
             }
 
             if (_step >= _frames)
@@ -55,6 +63,7 @@
 
         var spriteAnimation =
         {
+            AddEvent: addEvent,
             Update: update,
             Render: render
         };

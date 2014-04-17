@@ -22,6 +22,11 @@
             _current = name;
         };
 
+        function addEvent(name, frame, evName)
+        {
+            _anims[name].AddEvent(frame, evName);
+        }
+
         function setOffset(x, y)
         {
             _offset.x = x;
@@ -41,6 +46,7 @@
         var spriteRenderer =
         {
             AddAnim: addAnim,
+            AddEvent: addEvent,
             Play: play,
             SetOffset: setOffset,
             Update: update,
