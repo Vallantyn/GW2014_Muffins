@@ -1,7 +1,6 @@
 ﻿define(['collisions'], function (Collisions)
 {
     var TileCollider = function (parent) {
-        console.log(parent);
         this.parent = parent;
     }
 

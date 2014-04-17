@@ -1,12 +1,11 @@
 ﻿define(function ()
 {
-    return function SpriteAnimation(row, col, frames, spd, revert)
+    return function SpriteAnimation(row, col, frames, spd)
     {
         var _fps = spd / (1000 / 60);
         var _row = row;
         var _col = col;
         var _frames = frames;
-        var _mirror = revert ? revert : false;
 
         var _step = 0;
         var _frame = 0;
@@ -32,18 +31,22 @@
             }
         }
 
-        function render(cx, img, x, y, dx, dy)
+        function render(cx, img, x, y, dx, dy, offset, mirror)
         {
             cx.save();
 
-            if (_mirror)
+            if (mirror)
             {
-                cx.translate(1280/2, 0);
+                var ox = 1280 / 2 - (1280 / 2 - (x + 64));
+
+                cx.translate(ox, 0);
                 cx.scale(-1, 1);
-                cx.translate(-1280 / 2, 0);
+                cx.translate(-ox, 0);
             }
 
+            cx.translate(mirror? -offset.x : offset.x, offset.y);
             cx.drawImage(img, _col + dx * _step, dy * _row, dx, dy, x, y, dx, dy);
+            cx.translate(mirror ? offset.x : -offset.x, -offset.y);
 
             cx.restore();
         }
