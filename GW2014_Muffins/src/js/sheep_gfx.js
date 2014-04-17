@@ -1,4 +1,4 @@
-﻿define(['spriteRenderer', 'spriteAnimation'], function ( spriteRenderer, spriteAnimation )
+﻿define(['spriteRenderer', 'spriteAnimation', 'sceneManager'], function ( spriteRenderer, spriteAnimation, sceneManager )
 {
     return function SheepGFX()
     {
@@ -31,7 +31,7 @@
             sprite.AddAnim(anims.EMPALE_R, new spriteAnimation(7, 0, 10, 100));
             sprite.AddAnim(anims.EMPALE_L, new spriteAnimation(8, 0, 10, 100));
 
-            sprite.AddEvent(anims.WALK, 4, 'WALK_END');
+            sprite.AddEvent(anims.WALK, 10, 'MOVE_END');
             sprite.AddEvent(anims.SURPRISE, 5, 'SURPRISE_END');
             sprite.AddEvent(anims.RUN, 4, 'RUN_END');
         };
@@ -61,8 +61,19 @@
                 default:
             }
 
+            var gs = sceneManager.currentScene;
+            var lead = gs.GetSheep(sheep.leader);
+
             cx.strokeStyle = "crimson";
             cx.strokeRect(sheep.x, sheep.y + sheep.yOffset, sheep.width, sheep.height);
+            if (lead)
+            {
+                cx.beginPath();
+                cx.moveTo(sheep.x, sheep.y + sheep.yOffset);
+                cx.lineTo(lead.log.x, lead.log.y + lead.log.yOffset);
+                cx.closePath();
+                cx.stroke();
+            }
             sprite.Render(cx, sheep.x, sheep.y, sheep.right);
         };
 

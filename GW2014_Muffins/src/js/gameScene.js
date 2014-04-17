@@ -20,7 +20,7 @@
         function ClosestSheepTo(target, isWolfHidden)
         {
             var ret = null;
-            var curDist = 1000000000;
+            var curDist = 92 * 3;
 
             //Cherche a follow un leader ( le loup est un leader)
             //Les leader prefere les autre leader au loup
@@ -85,6 +85,11 @@
 
 
             return ret;
+        }
+
+        function getSheep(id)
+        {
+            return sheeps[id];
         }
 
         function init()
@@ -160,6 +165,7 @@
             get groundOffset() { return groundOffset; },
             get gravity() { return gravity;},
 
+            GetSheep: getSheep,
             ClosestSheepTo: ClosestSheepTo,
 
             Update: update,

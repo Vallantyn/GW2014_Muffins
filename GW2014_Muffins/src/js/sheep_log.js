@@ -41,16 +41,25 @@
             return (d < sheep.distOfView && obj.color != "red");
         }
 
-        function needToFollow()
+        function needToFollow(target)
         {
             var target = gameScene.ClosestSheepTo(sheep);
-            if (target && target != gameScene.wolf)
+            if (target && target != gameScene.wolf.log)
             {
                 if (target.state == states.MOVING || target.state == states.RUNNING)
                 {
-                    sheep.leader = target;
+                    if (!sheep.leader) {
+                        var d = Math.Dist(target, sheep)
+
+                        if (d < sheep.distOfView && d >= sheep.distMini)
+                        {
+                            sheep.leader = target.ID;
+                        }
+                    }
+                    return true;
                 }
             }
+            return false;
         }
 
         function startMove()
@@ -81,6 +90,7 @@
             eventManager.Remove('SURPRISE_END', startFlee);
 
             sheep.state = states.RUNNING;
+            sheep.leader = null;
 
             eventManager.Add('RUN_END', endFlee);
         };
@@ -88,14 +98,9 @@
         {
             eventManager.Remove('RUN_END', endFlee);
 
-
-            //console.log((sheep.maxFleeDist - sheep.fleeDist));
-
             var dice = Math.random();
             if (dice >= ((sheep.maxFleeDist - sheep.fleeDist)/sheep.maxFleeDist)*sheep.stopFleeChances)
             {
-                //console.debug('stap fleein');
-
                 sheep.flag &= ~flags.flee;
                 sheep.state = states.IDLE;
 
@@ -131,7 +136,7 @@
 
             grounded: false,
             collider: null,
-            distOfView: 150 + Math.random() * 50,
+            distOfView: 192 + Math.random() * 50,
             right: Math.random() > .5 ? true : false,
 
             state: states.IDLE,
@@ -145,7 +150,7 @@
             width: 92,
             //distOfView: 300,
             distMini: 93,
-            speed: 2,
+            speed: 50,
             fleeSpeed: 100,
             speedY: 0,
             color: "red",
@@ -287,16 +292,20 @@
 
             if (sheep.flag & flags.flee && sheep.state == states.RUNNING)
             {
-
                 var dir = wolf.x < sheep.x ? 1 : -1;
                 var dist = dir * sheep.fleeSpeed * dt;
                 sheep.fleeDist += Math.abs(dist);
 
                 sheep.Move(dist, 0);
             }
-            else if (sheep.flag & flags.follow && sheep.state == states.MOVING)
-            {
+            else if (sheep.flag & flags.follow) {
+                var target = gameScene.GetSheep(sheep.leader);
+                if (target) {
+                    var dir = target.log.x > sheep.x ? 1 : -1;
+                    var dist = dir * sheep.speed * dt;
 
+                    sheep.Move(dist, 0);
+                }
             }
 
             /*
