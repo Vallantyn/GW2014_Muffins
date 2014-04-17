@@ -1,5 +1,12 @@
 ﻿define(['sceneManager', 'tileCollider', 'buffer'], function (sceneManager, TileCollider, buffer)
 {
+    Math.Dist = function (obj1, obj2) {
+        var a = { x: (obj1.x > 0) ? obj1.x : 0, y: (obj1.y > 0) ? obj1.y : 0 };
+        var b = { x: (obj2.x > 0) ? obj2.x : 0, y: (obj2.y > 0) ? obj2.y : 0 };
+
+        return Math.sqrt((b.x - a.x) * (b.x - a.x) + (b.y - a.y) * (b.y - a.y));
+    }
+
     return function Sheep(x, y, id) {
 
         var gameScene = sceneManager.currentScene;
@@ -134,8 +141,26 @@
 
         function update(dt)
         {
+            var f = false;
+
             sheep.Move(0, 0);
             sheep.CheckGravity();
+
+            if (sheep.Flee(gameScene.wolf.log.character))
+            {
+                f = true;
+            }
+            if (!f) {
+                if (gameScene.wolf.log.color == "red") { }
+                    //                    sheep.Follow(sheep.ClosestSheepTo(sheep, gameScene.sheeps, true));
+                else {
+                    //if(this.moutons[i].leader == null)
+                    //                    sheep.Follow(sheep.ClosestSheepTo(sheep, gameScene.sheeps));
+                    //else 
+                    //	this.moutons[i].Follow(this.moutons[i].leader);
+
+                }
+            }
         };
 
         return {
@@ -276,11 +301,4 @@
 
 
     //}
-
-    Math.Dist = function (obj1, obj2) {
-        var a = { x: (obj1.x > 0) ? obj1.x : 0, y: (obj1.y > 0) ? obj1.y : 0 };
-        var b = { x: (obj2.x > 0) ? obj2.x : 0, y: (obj2.y > 0) ? obj2.y : 0 };
-
-        return Math.sqrt((b.x - a.x) * (b.x - a.x) + (b.y - a.y) * (b.y - a.y));
-    }
 });

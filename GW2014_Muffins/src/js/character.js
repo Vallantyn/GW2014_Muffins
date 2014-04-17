@@ -2,7 +2,7 @@
     return function Character(x, y) {
         var log, gfx;
         log = new characterLog(x, y);
-        gfx = new characterGfx(184, 92);
+        gfx = new characterGfx(92, 92);
 
         function init() {
             log.Init();
@@ -15,10 +15,11 @@
         };
 
         function render(cx) {
-            gfx.Render(cx, log.character.x, log.character.y);
+            gfx.Render(cx, log.character.x, log.character.y + log.character.yOffset);
         };
 
         return {
+            get log() { return log;},
             Init: init,
             Update: update,
             Render: render
