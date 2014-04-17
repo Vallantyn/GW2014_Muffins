@@ -11,9 +11,79 @@
         var kebabs = [];
 
         var groundOffset = 18;
+        var gravity = .8;
 
         var mapP = new mapParser;
         var mapImg;
+
+        function ClosestSheepTo(target, isWolfHidden)
+        {
+            var ret = null;
+            var curDist = 1000000000;
+
+            //Cherche a follow un leader ( le loup est un leader)
+            //Les leader prefere les autre leader au loup
+            //Si il n'y a pas de leader a proximité, instinc gregaire
+
+            for (var i = 0; i < sheeps.length; i++) 
+            {
+                var sheep = sheeps[i].log;
+
+                if (sheep != target)
+                {
+                    if (sheep.isLeader)
+                    {
+                        var d = Math.Dist(sheep, target);
+
+                        if(d < curDist )
+                        {
+                            curDist = d;
+                            ret = sheep;
+                        }
+						
+                    }
+					
+                }
+            };
+
+            if(isWolfHidden && wolf.log.isLeader)
+            {
+                var d = Math.Dist(wolf.log, target);
+
+                if(d < curDist )
+                {
+                    curDist = d;
+                    ret = wolf.log;
+                }
+            }
+            
+            if(ret == null)
+            {
+                for (var i = 0; i < sheeps.length; i++)
+                {
+                    var sheep = sheeps[i].log;
+
+                    if(sheep != target )
+                    {
+                        if(sheep.leader == null || sheep.leader.ID != target.ID)
+                        {
+                            var d = Math.Dist(sheep, target);
+
+                            if(d < curDist )
+                            {
+                                curDist = d;
+                                ret = sheep;
+                            }
+                        }
+                    }
+                };
+            }
+
+            //if(cube != target && cube.color == "red")
+            //	moutonList.pop();
+
+            return ret;
+        }
 
         function init()
         {
@@ -63,7 +133,11 @@
             get wolf() { return wolf; },
             get sheeps() { return sheeps; },
             get kebabs() { return kebabs; },
+
             get groundOffset() { return groundOffset; },
+            get gravity() { return gravity;},
+
+            ClosestSheepTo: ClosestSheepTo,
 
             Update: update,
             Render: base.Render,
