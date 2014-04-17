@@ -6,6 +6,8 @@
         83: 'DOWN',
         81: 'LEFT',
         68: 'RIGHT',
+        39: 'RIGHT',
+        37: 'LEFT',
 
         32: 'JUMP',
         69: 'ACTION',
