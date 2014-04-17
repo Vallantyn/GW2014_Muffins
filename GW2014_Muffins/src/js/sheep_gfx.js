@@ -15,9 +15,9 @@
                 DEAD: "dead",
             };
 
-        function init() {
+        function init(oy) {
             sprite = new spriteRenderer('sheep_spritesheet', 11, 8);
-            sprite.SetOffset(-20, -46);
+            sprite.SetOffset(-20, -46+oy);
 
             sprite.AddAnim(anims.WALK, new spriteAnimation(0, 0, 11, 100));
             sprite.AddAnim(anims.EAT, new spriteAnimation(1, 0, 6, 100), true);
@@ -34,7 +34,7 @@
 
         function render(cx, sheep) {
             cx.strokeStyle = "crimson";
-            cx.strokeRect(sheep.x, sheep.y, sheep.width, sheep.height);
+            cx.strokeRect(sheep.x, sheep.y + sheep.yOffset, sheep.width, sheep.height);
             sprite.Render(cx, sheep.x, sheep.y, sheep.right);
         };
 

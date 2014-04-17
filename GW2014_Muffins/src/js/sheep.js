@@ -9,7 +9,7 @@
         function init()
         {
             log.Init();
-            gfx.Init();
+            gfx.Init(log.sheep.yOffset);
         };
 
         function update(dt)

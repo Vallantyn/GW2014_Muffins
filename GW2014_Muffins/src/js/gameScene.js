@@ -10,6 +10,8 @@
         var logs = [];
         var kebabs = [];
 
+        var groundOffset = 18;
+
         var mapP = new mapParser;
         var mapImg;
 
@@ -61,6 +63,7 @@
             get wolf() { return wolf; },
             get sheeps() { return sheeps; },
             get kebabs() { return kebabs; },
+            get groundOffset() { return groundOffset; },
 
             Update: update,
             Render: base.Render,

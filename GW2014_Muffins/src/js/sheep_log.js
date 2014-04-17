@@ -1,14 +1,15 @@
-﻿define(['sceneManager', 'tileCollider'], function (sceneManager, TileCollider)
+﻿define(['sceneManager', 'tileCollider', 'buffer'], function (sceneManager, TileCollider, buffer)
 {
     return function Sheep(x, y, id) {
 
         var gameScene = sceneManager.currentScene;
-        
+
         var sheep =
         {
             ID: id,
             x: x,
             y: y,
+            yOffset: -gameScene.groundOffset,
 
             grounded: false,
             collider: null,
@@ -144,7 +145,7 @@
             },
 
             Init: init,
-            Update: update,
+            Update: update
         };
     };
 
