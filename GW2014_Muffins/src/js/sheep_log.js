@@ -41,12 +41,12 @@
             return (d < sheep.distOfView && obj.color != "red");
         }
 
-        function needToFollow(target)
+        function needToFollow()
         {
             var target = gameScene.ClosestSheepTo(sheep);
             if (target && target != gameScene.wolf.log)
             {
-                if (target.state == states.MOVING || target.state == states.RUNNING)
+                if (true/*target.state == states.MOVING || target.state == states.RUNNING*/)
                 {
                     if (!sheep.leader) {
                         var d = Math.Dist(target, sheep)
@@ -54,9 +54,11 @@
                         if (d < sheep.distOfView && d >= sheep.distMini)
                         {
                             sheep.leader = target.ID;
+                            console.log(sheep.leader);
+                            return true;
                         }
                     }
-                    return true;
+                    
                 }
             }
             return false;

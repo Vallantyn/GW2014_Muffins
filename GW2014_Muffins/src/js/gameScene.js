@@ -60,25 +60,29 @@
             
             if(ret == null)
             {
+
                 for (var i = 0; i < sheeps.length; i++)
                 {
                     var sheep = sheeps[i].log;
 
                     if(sheep != target )
                     {
-                        if(sheep.leader == null || sheep.leader.ID != target.ID)
+                        if(sheep.leader == null || sheep.leader != target.ID)
                         {
                             var d = Math.Dist(sheep, target);
-
+                            
                             if(d < curDist )
                             {
+
                                 curDist = d;
                                 ret = sheep;
+                            
                             }
                         }
                     }
                 };
             }
+            
 
             //if(cube != target && cube.color == "red")
             //  moutonList.pop();
@@ -101,6 +105,14 @@
             wolf = new character(1280/2 - 184/2, 10);
             base.AddChild(wolf);
 
+            for (var i = 0; i < 7; i++)
+            {
+                var dx = 300 - Math.random() * 600;
+
+                var s = new sheep(600 + dx , 250, i+1);
+                sheeps.push(s);
+                base.AddChild(s);
+            }
             base.AddChild({
             Render: function (cx)
             {
@@ -110,14 +122,6 @@
                 //cx.restore();
             }});
 
-            for (var i = 0; i < 7; i++)
-            {
-                var dx = 300 - Math.random() * 600;
-
-                var s = new sheep(600 + dx , 250, i+1);
-                sheeps.push(s);
-                base.AddChild(s);
-            }
 
 
             _inited = true;
