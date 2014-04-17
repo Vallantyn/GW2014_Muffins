@@ -36,7 +36,7 @@
                 base.AddChild(new sheep(600 + dx , 250, i+1));
             }
 
-            wolf = new character();
+            wolf = new character(300, 10);
             base.AddChild(wolf);
 
             _inited = true;

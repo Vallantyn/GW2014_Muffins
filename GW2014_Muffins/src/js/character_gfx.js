@@ -15,7 +15,7 @@
 
         };
 
-        function render(x, y)
+        function render(cx, x, y)
         {
             cx.fillStyle = color;
             cx.fillRect(x, y, width, height);

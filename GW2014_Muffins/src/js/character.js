@@ -1,8 +1,8 @@
-﻿define(function () {
-    return function Character() {
+﻿define(['character_log', 'character_gfx'], function (characterLog, characterGfx) {
+    return function Character(x, y) {
         var log, gfx;
-        log = new characterLog();
-        gfx = new characterGfx();
+        log = new characterLog(x, y);
+        gfx = new characterGfx(184, 92);
 
         function init() {
             log.Init();
@@ -15,7 +15,7 @@
         };
 
         function render(cx) {
-            gfx.Render(cx);
+            gfx.Render(cx, log.character.x, log.character.y);
         };
 
         return {
