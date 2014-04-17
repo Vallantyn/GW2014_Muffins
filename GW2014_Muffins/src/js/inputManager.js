@@ -39,6 +39,15 @@
 
     function mouseChange(e)
     {
+        var _x = (e.clientX - e.target.offsetLeft) * 1280 / e.target.clientWidth
+             , _y = (e.clientY - e.target.offsetTop) * 720 / e.target.clientHeight;
+
+        if (e.type == 'mousemove')
+        {
+            eventManager.Fire('MOUSE_MOVE', { x: _x, y: _y });
+            return;
+        }
+
         if (!(e.button in buttonEnum)) return;
 
         var btn = buttonEnum[e.button];
