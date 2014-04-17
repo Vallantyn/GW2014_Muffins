@@ -43,6 +43,14 @@
 
         eventManager.Add('JUMP_UP', moveJump);
 
+        eventManager.Add('SKILL_1_UP', eatSheep);
+        eventManager.Add('SKILL_2_UP', desguise);
+        eventManager.Add('SKILL_3_UP', putLog);
+        //eventManager.Add('SKILL_4_UP', tp);
+        eventManager.Add('SKILL_5_UP', dig);
+        eventManager.Add('SKILL_6_UP', bridge);
+
+
         function moveLeft()
         {
             wolf.dir -= 1;
@@ -157,14 +165,14 @@
         function putLog() {
             if (wolf.hunger > 0) {
                 //pose une buche
-                logs.push(new Log(wolf.x, wolf.y));
+                gameScene.logs.push(new Log(wolf.x, wolf.y));
                 wolf.hunger -= wolf.hungerCost;
                 if (wolf.hunger < 0) wolf.hunger = 0;
                 repletion.setHunger(wolf.hunger);
             }
         }
 
-        function dig(x,y)
+        function dig()
         {
             if (wolf.hunger > 0) 
             {
@@ -174,7 +182,7 @@
 
                 for (var i = 0; i < tm.length; i++) 
                 {
-                    var t = mp.tileInXY(tm[i], x,y);
+                    var t = mp.tileInXY(tm[i], wolf.x,wolf.y + wolf.height);
                     if(t)
                     {
                         console.log(t);
