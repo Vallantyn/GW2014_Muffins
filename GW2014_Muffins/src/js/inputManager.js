@@ -70,10 +70,10 @@
 
         if (_state.last != _state.actual) {
             if (_state.actual == 0) {
-                eventManager.Fire(btn + "_UP");
+                eventManager.Fire(btn + "_UP", { x: _x, y: _y });
             }
             else {
-                eventManager.Fire(btn + "_DOWN");
+                eventManager.Fire(btn + "_DOWN", { x: _x, y: _y });
             }
         }
         else// if (_state.actual == 1)
