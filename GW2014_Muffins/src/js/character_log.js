@@ -1,7 +1,9 @@
+
 ﻿define(['sceneManager', 'tileCollider', 'log', 'eventManager'], function (sceneManager, TileCollider, Log, eventManager)
 {
     return function CharacterLOG(x, y)
     {
+
         var gameScene = sceneManager.currentScene;
 
         var wolf =
@@ -53,16 +55,15 @@
 
         function moveLeft()
         {
+
             wolf.dir -= 1;
         }
 
-        function moveRight()
-        {
+        function moveRight() {
             wolf.dir += 1;
         }
 
-        function moveJump()
-        {
+        function moveJump() {
             wolf.jump = true;
         }
 
@@ -91,12 +92,14 @@
                         // Annuler la vitesse actuelle en cas de contact avec le sol
                         wolf.speedY = 0;
                         // Le cube est replacé au niveau du sol
+
                         wolf.y = gameScene.mapP.wallground[i].y - gameScene.mapP.wallground[i].height / 2 - wolf.height / 2 + 1;
                     }
                 };
             }
 
             //déplacement du vaisseau
+
 
             if (wolf.jump == true && wolf.grounded) {
                 wolf.speedY = -wolf.impulsion;
@@ -118,6 +121,7 @@
 
         function desguise() {
              console.log("2 : Desguise ")
+
 
             if (wolf.hunger > 0) {
                 if (wolf.color != "red") {
@@ -142,12 +146,13 @@
 
         function eatSheep() {
             //Je sais, c'est horrible
+
             console.log("1 : Eat Sheep ")
             if (gameScene.sheeps.length > 0) {
-                var s = gameScene.ClosestSheepTo(wolf, gameScene.sheeps);
+                var s = gameScene.ClosestSheepTo(wolf, false);
                 if (Math.Dist(wolf, s) < wolf.range) {
-                    //console.log(gameScene.killSheep)
                     gameScene.killSheep(s);
+
                     wolf.hunger += wolf.hungerReplenish;
                     if (wolf.hunger > 1) wolf.hunger = 1;
                 }
@@ -156,7 +161,9 @@
         }
 
         function tp(x, y) {
+
                         console.log("4 : Teleport ")
+
 
             if (wolf.hunger > 0) {
                 wolf.x = x;
@@ -164,6 +171,7 @@
                 wolf.hunger -= wolf.hungerCost;
                 if (wolf.hunger < 0) wolf.hunger = 0;
                 repletion.setHunger(wolf.hunger);
+
             }
         }
 
@@ -179,6 +187,7 @@
                 repletion.setHunger(wolf.hunger);
             }
         }
+
 
         function dig()
         {
@@ -213,10 +222,12 @@
 
                 wolf.hunger -= wolf.hungerCost;
                 if (wolf.hunger < 0) wolf.hunger = 0;
+
             }
 
             repletion.setHunger(wolf.hunger);
         }
+
 
         function bridge(x, y)
         {
@@ -237,6 +248,7 @@
         function init() {
             wolf.collider = new TileCollider(wolf);
         };
+
 
         function update(dt) {
             move();

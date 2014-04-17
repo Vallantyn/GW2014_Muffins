@@ -47,7 +47,7 @@
                 }
             };
 
-            if(isWolfHidden && wolf.log.isLeader)
+            if(isWolfHidden &&  wolf != target && wolf.log.isLeader)
             {
                 var d = Math.Dist(wolf.log, target);
 
@@ -81,7 +81,8 @@
             }
 
             //if(cube != target && cube.color == "red")
-            //	moutonList.pop();
+            //  moutonList.pop();
+
 
             return ret;
         }
@@ -113,6 +114,7 @@
             _inited = true;
         }
 
+
         function resetBuffer()
         {
             mapImg = new buffer(1280, 720);
@@ -122,9 +124,10 @@
 
         }
 
-        function update() {
+
+        function update(dt) {
             if (!_inited) init();
-            base.Update();
+            base.Update(dt);
 
             // OWN UPDATE
         }
@@ -138,9 +141,11 @@
 
         function killSheep(obj)
         {
-            console.log(obj)
-            base.RemoveChild(obj);
-            kebabs.push(sheeps.splice(sheeps.indexOf(obj), 1));
+
+            base.RemoveChild(obj.parent);
+            obj.Die();
+            kebabs.push(sheeps.splice(sheeps.indexOf(obj.parent), 1)[0]);
+
         }
 
         var gameScene =

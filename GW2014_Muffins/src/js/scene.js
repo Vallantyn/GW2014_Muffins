@@ -45,8 +45,11 @@
         }
 
         function removeChild(obj) {
+
             if (obj in _objects || _objects[obj._id])
+            {
                 delete _objects[obj._id];
+            }
         }
 
         function unLoad()

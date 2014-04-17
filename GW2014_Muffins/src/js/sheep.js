@@ -10,6 +10,8 @@
         {
             log.Init();
             gfx.Init(log.sheep.yOffset);
+            log.sheep.parent = this;
+            //console.log(log.sheep)
         };
 
         function update(dt)
