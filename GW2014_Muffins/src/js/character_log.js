@@ -44,12 +44,12 @@
 
         function moveLeft()
         {
-            wolf.dir += 1;
+            wolf.dir -= 1;
         }
 
         function moveRight()
         {
-            wolf.dir -= 1;
+            wolf.dir += 1;
         }
 
         function moveJump()
