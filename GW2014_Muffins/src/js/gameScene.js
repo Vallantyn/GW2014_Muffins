@@ -1,12 +1,17 @@
 ﻿define(['scene', 'mapParser', 'buffer', 'character', 'sheep'],function (scene, mapParser, buffer, character, sheep)
 {
-    return function GameScene(map, initCb) {
+    return function GameScene(map, initCb)
+    {
         var _inited = false;
         var base = new scene(initCb);
 
         var wolf;// = new character();
         var sheeps = [];
         var logs = [];
+        var kebabs = [];
+
+        var groundOffset = 18;
+
         var mapP = new mapParser;
         var mapImg;
 
@@ -18,8 +23,6 @@
             for (var i = 0; i < tiledMap.length; i++)
                 for (var j = 0; j < tiledMap[i].length; j++)
                     tiledMap[i][j].draw(mapImg.context);
-
-            console.log(mapP);
 
             base.AddChild({
             Render: function (cx)
@@ -55,7 +58,13 @@
 
         var gameScene =
         {
-            mapP: mapP,
+            get mapP() { return mapP; },
+            get logs() { return logs; },
+            get wolf() { return wolf; },
+            get sheeps() { return sheeps; },
+            get kebabs() { return kebabs; },
+            get groundOffset() { return groundOffset; },
+
             Update: update,
             Render: base.Render,
             AddChild: base.AddChild,

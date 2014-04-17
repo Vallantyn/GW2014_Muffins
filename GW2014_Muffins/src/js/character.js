@@ -1,19 +1,21 @@
 ﻿define(function () {
     return function Character() {
-        function init()
-        {
+        var log, gfx;
+        log = new characterLog();
+        gfx = new characterGfx();
 
+        function init() {
+            log.Init();
+            gfx.Init();
         };
 
-        function update(dt)
-        {
-
+        function update(dt) {
+            log.Update(dt);
+            gfx.Update(dt);
         };
 
-        function render(cx)
-        {
-            cx.fillStyle = 'gold';
-            cx.fillRect(10, 10, 20, 20);
+        function render(cx) {
+            gfx.Render(cx);
         };
 
         return {
@@ -21,5 +23,5 @@
             Update: update,
             Render: render
         };
-    };
+    }
 });
