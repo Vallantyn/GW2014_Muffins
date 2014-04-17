@@ -2,6 +2,11 @@
 {
     var keyEnum =
     {
+        90: 'UP',
+        83: 'DOWN',
+        81: 'LEFT',
+        68: 'RIGHT',
+
         38: 'UP',
         40: 'DOWN',
         37: 'LEFT',
