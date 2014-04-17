@@ -80,12 +80,12 @@ function getMouseLoc(){
         else */
         //Les log et teleport sont géré ds le cube directement et mappé sur les touches 3 et 4
 
-      
-        if(Input.boom == true && window.event.clientX > ground.x && window.event.clientX < ground.x + ground.width
+        //Obsolète
+        /*if(Input.boom == true && window.event.clientX > ground.x && window.event.clientX < ground.x + ground.width
                 && window.event.clientY > ground.y && window.event.clientY < ground.y + ground.height){
             
             console.log('detect')
-        }
+        }*/
         
         if(Input.teleport)
             cube.tp(window.event.clientX,window.event.clientY);
