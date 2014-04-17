@@ -67,9 +67,19 @@
             eventManager.Remove('MOVE_END', endMove);
         };
 
-        function startFlee()
+        function wolfSpotted()
         {
             sheep.flag |= flags.flee;
+            sheep.state = states.SURPRISE;
+
+            eventManager.Add('SURPRISE_END', startFlee);
+        }
+
+        function startFlee()
+        {
+            eventManager.Remove('SURPRISE_END', startFlee);
+
+//            sheep.flag |= flags.flee;
             sheep.state = states.RUNNING;
 
             eventManager.Add('RUN_END', endFlee);
@@ -78,12 +88,9 @@
         {
             eventManager.Remove('RUN_END', endFlee);
 
-            console.log((sheep.maxFleeDist - sheep.fleeDist));
-
             var dice = Math.random();
             if (dice >= ((sheep.maxFleeDist - sheep.fleeDist)/sheep.maxFleeDist)*sheep.stopFleeChances)
             {
-                console.debug('stap fleein');
                 sheep.flag &= ~flags.flee;
                 sheep.state = states.IDLE;
 
@@ -125,7 +132,7 @@
             state: states.IDLE,
             flag: 0,
 
-            maxFleeDist: 200,
+            maxFleeDist: 92*4,
             fleeDist: 0,
             stopFleeChances: .67,
 
@@ -134,6 +141,7 @@
             //distOfView: 300,
             distMini: 93,
             speed: 2,
+            fleeSpeed: 100,
             speedY: 0,
             color: "red",
             isDead: false,
@@ -260,7 +268,7 @@
             {
                 if (needToFlee(wolf)) // Wolf is there, run for your life dood
                 {
-                    startFlee();
+                    wolfSpotted();
                 }
                 else {
                     var sheeps = gameScene.sheeps;
@@ -277,12 +285,10 @@
                 }
             }
 
-            if (sheep.flag & flags.flee)
+            if (sheep.flag & flags.flee && sheep.state == states.RUNNING)
             {
-                console.log('sheep fleein');
-
                 var dir = wolf.x < sheep.x ? 1 : -1;
-                var dist = dir * sheep.speed;
+                var dist = dir * sheep.fleeSpeed * dt;
                 sheep.fleeDist += Math.abs(dist);
 
                 sheep.Move(dist, 0);

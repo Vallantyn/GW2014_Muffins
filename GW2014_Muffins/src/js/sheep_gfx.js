@@ -28,6 +28,7 @@
             sprite.AddAnim(anims.DEAD, new spriteAnimation(6, 0, 1, 100));
 
             sprite.AddEvent(anims.WALK, 4, 'END_WALK');
+            sprite.AddEvent(anims.SURPRISE, 5, 'SURPRISE_END');
             sprite.AddEvent(anims.RUN, 4, 'RUN_END');
         };
 
@@ -40,6 +41,9 @@
             {
                 case 'idle':
                     sprite.Play(anims.EAT);
+                    break;
+                case 'surprise':
+                    sprite.Play(anims.SURPRISE);
                     break;
                 case 'eating':
                     sprite.Play(anims.EAT);

@@ -112,9 +112,9 @@
             _inited = true;
         }
 
-        function update() {
+        function update(dt) {
             if (!_inited) init();
-            base.Update();
+            base.Update(dt);
 
             // OWN UPDATE
         }
