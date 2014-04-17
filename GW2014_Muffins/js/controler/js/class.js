@@ -125,6 +125,11 @@ var Cube = function (x,y){
 
     }
 
+    this.dig = function()
+    {
+        
+    }
+
     this.eatSheep = function()
     {
         //Je sais, c'est horrible
