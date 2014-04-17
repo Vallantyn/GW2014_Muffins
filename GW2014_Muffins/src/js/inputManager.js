@@ -14,7 +14,8 @@
         50: 'SKILL_2',
         51: 'SKILL_3',
         52: 'SKILL_4',
-        53: 'SKILL_5'
+        53: 'SKILL_5',
+        54: 'SKILL_6'
     };
 
     var keyState = {}
