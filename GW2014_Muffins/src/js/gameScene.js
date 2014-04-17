@@ -92,7 +92,7 @@
             if (id == null) return null;
 
             for (var i = 0; i < sheeps.length; i++) {
-                if (sheeps[i].ID == id) return sheeps[i];
+                if (sheeps[i].log.ID == id) return sheeps[i];
             }
         }
 
