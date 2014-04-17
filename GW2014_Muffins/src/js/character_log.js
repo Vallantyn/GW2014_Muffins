@@ -165,26 +165,36 @@
         {
             
             console.log("4 : Teleport, now click ")
+            if (wolf.hunger > 0) 
+            {
+                eventManager.Add('LMB_DOWN', tp);
 
-            eventManager.Add('LMB_DOWN', tp);
+                wolf.hunger -= wolf.hungerCost;
+
+                if (wolf.hunger < 0) wolf.hunger = 0;
+
+               // repletion.setHunger(wolf.hunger);
+
+            }
 
         }
 
-        function tp(x, y) {
+        function tp(obj) {
 
             eventManager.Remove('LMB_DOWN');
 
-            if(!x) x = 600;
-            if(!y) y = 100;
+            var x = obj.x;
+            var y = obj.y;
 
-            if (wolf.hunger > 0) {
-                wolf.x = x;
-                wolf.y = y;
-                wolf.hunger -= wolf.hungerCost;
-                if (wolf.hunger < 0) wolf.hunger = 0;
-                repletion.setHunger(wolf.hunger);
+            if(!obj.x) x = 600;
+            if(!obj.y) y = 100;
 
-            }
+            
+            wolf.x = x;
+            wolf.y = y;
+
+
+            
         }
 
         function putLog() {
