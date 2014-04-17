@@ -93,7 +93,9 @@
 
         function getSheep(id)
         {
-            return sheeps[id];
+            for (var i = 0; i < sheeps.length; i++) {
+                if (sheeps[i].ID == id) return sheeps[i];
+            }
         }
 
         function init()
