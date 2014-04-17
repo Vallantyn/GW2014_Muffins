@@ -14,15 +14,13 @@
 
         var mapP = new mapParser;
         var mapImg;
+        var tiledMap;
 
         function init()
         {
-            var tiledMap = mapP.parse(map);
+            tiledMap = mapP.parse(map);
 
-            mapImg = new buffer(1280, 720);
-            for (var i = 0; i < tiledMap.length; i++)
-                for (var j = 0; j < tiledMap[i].length; j++)
-                    tiledMap[i][j].draw(mapImg.context);
+            resetBuffer();
 
             base.AddChild({
             Render: function (cx)
@@ -42,6 +40,15 @@
             _inited = true;
         }
 
+        function resetBuffer()
+        {
+            mapImg = new buffer(1280, 720);
+            for (var i = 0; i < tiledMap.length; i++)
+                for (var j = 0; j < tiledMap[i].length; j++)
+                    tiledMap[i][j].draw(mapImg.context);
+
+        }
+
         function update() {
             if (!_inited) init();
             base.Update();
@@ -59,6 +66,7 @@
         var gameScene =
         {
             get mapP() { return mapP; },
+            get tiledMap() { return tiledMap; },
             get logs() { return logs; },
             get wolf() { return wolf; },
             get sheeps() { return sheeps; },
@@ -69,7 +77,8 @@
             Render: base.Render,
             AddChild: base.AddChild,
             RemoveChild: base.RemoveChild,
-            UnLoad: unLoad
+            UnLoad: unLoad,
+            resetBuffer : resetBuffer
         };
 
         return gameScene;

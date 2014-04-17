@@ -21,6 +21,7 @@
             hungerReplenish: 0.2,
             hungerCost: 0.1,
             isLeader: true,
+            isBridge : false,
             grounded: false,
             collider: null
         };
@@ -129,6 +130,65 @@
                 if (wolf.hunger < 0) wolf.hunger = 0;
                 repletion.setHunger(wolf.hunger);
             }
+        }
+
+        function dig(x,y)
+        {
+            if (wolf.hunger > 0) 
+            {
+              //DIG
+                var tm = sceneManager.currentScene.tiledMap;
+                var mp = sceneManager.currentScene.mapP;
+
+                for (var i = 0; i < tm.length; i++) 
+                {
+                    var t = mp.tileInXY(tm[i], x,y);
+                    if(t)
+                    {
+                        console.log(t);
+                        t.img = null;
+                        console.log(mp.walkable.length)
+                        mp.walkable.splice(mp.walkable.indexOf(t),1);
+                        sceneManager.currentScene.resetBuffer();
+                        break;
+                    } 
+                };
+
+                wolf.hunger -= wolf.hungerCost;
+                if (wolf.hunger < 0) wolf.hunger = 0;
+            }
+
+            repletion.setHunger(wolf.hunger);
+        }
+
+        function bridge(x, y)
+        {
+            if (wolf.hunger > 0) 
+            {
+                wolf.isBridge = true;
+                //DIG
+                var tm = sceneManager.currentScene.tiledMap;
+                var mp = sceneManager.currentScene.mapP;
+
+                for (var i = 0; i < tm.length; i++) 
+                {
+                    var t = mp.tileInXY(tm[i], x,y);
+                    if(t)
+                    {
+                        console.log(t);
+                        t.img = null;
+                        console.log(mp.walkable.length)
+                        mp.walkable.splice(mp.walkable.indexOf(t),1);
+                        sceneManager.currentScene.resetBuffer();
+                        break;
+                    } 
+                };
+
+                wolf.hunger -= wolf.hungerCost;
+                if (wolf.hunger < 0) wolf.hunger = 0;
+            }
+
+            repletion.setHunger(wolf.hunger);
         }
 
         function init() {
