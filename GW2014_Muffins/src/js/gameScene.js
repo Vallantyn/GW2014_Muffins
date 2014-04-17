@@ -1,4 +1,4 @@
-﻿define(['scene', 'mapParser', 'buffer', 'character', 'sheep'],function (scene, mapParser, buffer, character, sheep)
+﻿define(['scene', 'mapParser', 'buffer', 'character', 'sheep','ui'],function (scene, mapParser, buffer, character, sheep, UI)
 {
     return function GameScene(map, initCb)
     {
@@ -16,6 +16,7 @@
         var mapP = new mapParser;
         var mapImg;
         var tiledMap;
+        var ui;
 
         function ClosestSheepTo(target, isWolfHidden)
         {
@@ -94,7 +95,7 @@
         function getSheep(id)
         {
             if (id == null) return null;
-
+            if(id == 0) return wolf;
             for (var i = 0; i < sheeps.length; i++) {
                 if (sheeps[i].log.ID == id) return sheeps[i];
             }
@@ -114,6 +115,9 @@
                 var dx = 300 - Math.random() * 600;
 
                 var s = new sheep(600 + dx , 250, i+1);
+
+                //if(i == 3) s.log.isLeader = true;
+
                 sheeps.push(s);
                 base.AddChild(s);
             }
@@ -126,6 +130,9 @@
                 //cx.restore();
             }});
 
+            ui = new UI(10,10);
+
+            base.AddChild(ui);
 
 
             _inited = true;
@@ -181,6 +188,7 @@
         var gameScene =
         {
             get mapP() { return mapP; },
+            get ui() { return ui; },
             get tiledMap() { return tiledMap; },
             get logs() { return logs; },
             get wolf() { return wolf; },

@@ -43,23 +43,26 @@
 
         function needToFollow()
         {
-            var target = gameScene.ClosestSheepTo(sheep);
-            if (target && target != gameScene.wolf.log)
+            var b = gameScene.wolf.log.color == "red";
+            var target = gameScene.ClosestSheepTo(sheep,b);
+            if (target)
             {
-                if (true/*target.state == states.MOVING || target.state == states.RUNNING*/)
-                {
-                    if (!sheep.leader) {
+                
+                    if (!sheep.leader || b) {
                         var d = Math.Dist(target, sheep)
 
                         if (d < sheep.distOfView && d >= sheep.distMini)
                         {
                             sheep.leader = target.ID;
-                            console.log(sheep.leader);
                             return true;
                         }
                     }
+                    else if(Math.Dist(gameScene.GetSheep(sheep.leader), sheep) >= sheep.distMini ) return false;
+                    else return true;
                     
-                }
+                
+                    
+                
             }
             return false;
         }
@@ -151,7 +154,7 @@
             height: 92,
             width: 92,
             //distOfView: 300,
-            distMini: 93,
+            distMini: 50,
             speed: 50,
             fleeSpeed: 100,
             speedY: 0,
@@ -220,7 +223,7 @@
                     sheep.state = states.RUNNING;
                     sheep.leader = null;
                     return true;
-                }
+                }   
                 else return false;
             },
 
@@ -302,7 +305,6 @@
                 var dir = wolf.x < sheep.x ? 1 : -1;
                 var dist = dir * sheep.fleeSpeed * dt;
                 sheep.fleeDist += Math.abs(dist);
-
                 sheep.Move(dist, 0);
             }
             else if (sheep.flag & flags.follow) {

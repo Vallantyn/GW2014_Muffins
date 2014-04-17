@@ -143,7 +143,7 @@
                 if (wolf.hunger < 0) wolf.hunger = 0;
 
             }
-            repletion.setHunger(wolf.hunger);
+            gameScene.ui.setHunger(wolf.hunger);
         }
 
         function boom() {
@@ -162,7 +162,7 @@
                     wolf.hunger += wolf.hungerReplenish;
                     if (wolf.hunger > 1) wolf.hunger = 1;
                 }
-                //repletion.setHunger(wolf.hunger);
+                gameScene.ui.setHunger(wolf.hunger);
             }
         }
 
@@ -178,7 +178,7 @@
 
                 if (wolf.hunger < 0) wolf.hunger = 0;
 
-               // repletion.setHunger(wolf.hunger);
+               gameScene.ui.setHunger(wolf.hunger);
 
             }
 
@@ -194,8 +194,10 @@
             if(!obj.x) x = 600;
             if(!obj.y) y = 100;
 
-            
-            wolf.x = x;
+            var dx = x - wolf.x ;
+
+            gameScene.moveMap(-dx , 0);
+        
             wolf.y = y;
 
 
@@ -211,7 +213,7 @@
                 wolf.hunger -= wolf.hungerCost;
                 if (wolf.hunger < 0) wolf.hunger = 0;
 
-                repletion.setHunger(wolf.hunger);
+                gameScene.ui.setHunger(wolf.hunger);
             }
         }
 
@@ -252,7 +254,7 @@
 
             }
 
-            repletion.setHunger(wolf.hunger);
+            gameScene.ui.setHunger(wolf.hunger);
         }
 
 
@@ -269,7 +271,7 @@
                 if (wolf.hunger < 0) wolf.hunger = 0;
             }
 
-            repletion.setHunger(wolf.hunger);
+            gameScene.ui.setHunger(wolf.hunger);
         }
 
         function init() {

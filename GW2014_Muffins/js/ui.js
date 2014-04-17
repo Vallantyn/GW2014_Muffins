@@ -64,9 +64,6 @@ skillBar.prototype.Render = function()
 
 }
 
-
-
-
 function skillButton(x, y,width, height, action)
 {
     this.x = x;
