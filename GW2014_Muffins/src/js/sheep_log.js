@@ -41,15 +41,16 @@
             return (d < sheep.distOfView && obj.color != "red");
         }
 
-        function needToFollow(obj)
+        function needToFollow()
         {
-            if (obj)
+            var target = gameScene.ClosestSheepTo(sheep);
+            if (target && target != gameScene.wolf)
             {
-                var d = Math.Dist(obj, sheep)
-                return (d < sheep.distOfView && d >= sheep.distMini);
+                if (target.state == states.MOVING || target.state == states.RUNNING)
+                {
+                    sheep.leader = target;
+                }
             }
-
-            return false;
         }
 
         function startMove()
@@ -79,7 +80,6 @@
         {
             eventManager.Remove('SURPRISE_END', startFlee);
 
-//            sheep.flag |= flags.flee;
             sheep.state = states.RUNNING;
 
             eventManager.Add('RUN_END', endFlee);
@@ -88,9 +88,14 @@
         {
             eventManager.Remove('RUN_END', endFlee);
 
+
+            //console.log((sheep.maxFleeDist - sheep.fleeDist));
+
             var dice = Math.random();
             if (dice >= ((sheep.maxFleeDist - sheep.fleeDist)/sheep.maxFleeDist)*sheep.stopFleeChances)
             {
+                //console.debug('stap fleein');
+
                 sheep.flag &= ~flags.flee;
                 sheep.state = states.IDLE;
 
@@ -270,28 +275,28 @@
                 {
                     wolfSpotted();
                 }
-                else {
-                    var sheeps = gameScene.sheeps;
-                    for (var i = 0; i < sheeps.length; i++)
-                    {
-                        if (needToFollow(sheeps[i].log)) // Your buddies are movin. Follow them moron !
-                        {
+                else if (needToFollow())
+                {
+                    startFollow();
+                }
+                else
+                {
 
-                        }
-                    }
-
-                    // Nothing to do ? Eat as if your life was at stake !!
-                    // ...
                 }
             }
 
             if (sheep.flag & flags.flee && sheep.state == states.RUNNING)
             {
+
                 var dir = wolf.x < sheep.x ? 1 : -1;
                 var dist = dir * sheep.fleeSpeed * dt;
                 sheep.fleeDist += Math.abs(dist);
 
                 sheep.Move(dist, 0);
+            }
+            else if (sheep.flag & flags.follow && sheep.state == states.MOVING)
+            {
+
             }
 
             /*

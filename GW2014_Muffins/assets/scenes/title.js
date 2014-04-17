@@ -1,7 +1,7 @@
 ﻿define(['scene', 'sceneManager', 'eventManager'], function (scene, sceneManager, eventManager)
 {
     var title = new scene(init);
-
+    
     function init()
     {
         var background, msg;

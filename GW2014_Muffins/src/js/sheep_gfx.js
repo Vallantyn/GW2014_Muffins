@@ -8,26 +8,30 @@
             {
                 WALK: "walk",
                 EAT: "eat",
-                DIE: "die",
+                DEAD: "dead",
                 ROLL: "roll",
                 SURPRISE: "surprise",
                 RUN: "run",
-                DEAD: "dead",
+                EXPLODED: "exploded",
+                EMPALE_R: "empale_right",
+                EMPALE_L: "empale_left",
             };
 
         function init(oy) {
-            sprite = new spriteRenderer('sheep_spritesheet', 11, 8);
+            sprite = new spriteRenderer('sheep_spritesheet', 11, 9);
             sprite.SetOffset(-20, -46+oy);
 
             sprite.AddAnim(anims.WALK, new spriteAnimation(0, 0, 11, 100));
             sprite.AddAnim(anims.EAT, new spriteAnimation(1, 0, 6, 100), true);
-            sprite.AddAnim(anims.DIE, new spriteAnimation(2, 0, 10, 100));
+            sprite.AddAnim(anims.DÈAD, new spriteAnimation(2, 0, 10, 100));
             sprite.AddAnim(anims.ROLL, new spriteAnimation(3, 0, 6, 100));
             sprite.AddAnim(anims.SURPRISE, new spriteAnimation(4, 0, 6, 100));
             sprite.AddAnim(anims.RUN, new spriteAnimation(5, 0, 5, 100));
-            sprite.AddAnim(anims.DEAD, new spriteAnimation(6, 0, 1, 100));
+            sprite.AddAnim(anims.EXPLODED, new spriteAnimation(6, 0, 1, 100));
+            sprite.AddAnim(anims.EMPALE_R, new spriteAnimation(7, 0, 10, 100));
+            sprite.AddAnim(anims.EMPALE_L, new spriteAnimation(8, 0, 10, 100));
 
-            sprite.AddEvent(anims.WALK, 4, 'END_WALK');
+            sprite.AddEvent(anims.WALK, 4, 'WALK_END');
             sprite.AddEvent(anims.SURPRISE, 5, 'SURPRISE_END');
             sprite.AddEvent(anims.RUN, 4, 'RUN_END');
         };

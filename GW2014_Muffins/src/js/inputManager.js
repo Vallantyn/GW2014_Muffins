@@ -6,8 +6,11 @@
         83: 'DOWN',
         81: 'LEFT',
         68: 'RIGHT',
-        39: 'RIGHT',
+
+        38: 'UP',
+        40: 'DOWN',
         37: 'LEFT',
+        39: 'RIGHT',
 
         32: 'JUMP',
         69: 'ACTION',
@@ -41,6 +44,15 @@
 
     function mouseChange(e)
     {
+        var _x = (e.clientX - e.target.offsetLeft) * 1280 / e.target.clientWidth
+             , _y = (e.clientY - e.target.offsetTop) * 720 / e.target.clientHeight;
+
+        if (e.type == 'mousemove')
+        {
+            eventManager.Fire('MOUSE_MOVE', { x: _x, y: _y });
+            return;
+        }
+
         if (!(e.button in buttonEnum)) return;
 
         var btn = buttonEnum[e.button];
@@ -63,10 +75,10 @@
 
         if (_state.last != _state.actual) {
             if (_state.actual == 0) {
-                eventManager.Fire(btn + "_UP");
+                eventManager.Fire(btn + "_UP", { x: _x, y: _y });
             }
             else {
-                eventManager.Fire(btn + "_DOWN");
+                eventManager.Fire(btn + "_DOWN", { x: _x, y: _y });
             }
         }
         else// if (_state.actual == 1)

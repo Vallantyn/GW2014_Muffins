@@ -15,6 +15,7 @@
 
         var mapP = new mapParser;
         var mapImg;
+        var tiledMap;
 
         function ClosestSheepTo(target, isWolfHidden)
         {
@@ -46,7 +47,7 @@
                 }
             };
 
-            if(isWolfHidden && wolf.log.isLeader)
+            if(isWolfHidden &&  wolf != target && wolf.log.isLeader)
             {
                 var d = Math.Dist(wolf.log, target);
 
@@ -80,19 +81,17 @@
             }
 
             //if(cube != target && cube.color == "red")
-            //	moutonList.pop();
+            //  moutonList.pop();
+
 
             return ret;
         }
 
         function init()
         {
-            var tiledMap = mapP.parse(map);
+            tiledMap = mapP.parse(map);
 
-            mapImg = new buffer(1280, 720);
-            for (var i = 0; i < tiledMap.length; i++)
-                for (var j = 0; j < tiledMap[i].length; j++)
-                    tiledMap[i][j].draw(mapImg.context);
+            resetBuffer();
 
             base.AddChild({
             Render: function (cx)
@@ -103,7 +102,10 @@
             for (var i = 0; i < 7; i++)
             {
                 var dx = 300 - Math.random() * 600;
-                base.AddChild(new sheep(600 + dx , 250, i+1));
+
+                var s = new sheep(600 + dx , 250, i+1);
+                sheeps.push(s);
+                base.AddChild(s);
             }
 
             wolf = new character(300, 10);
@@ -111,6 +113,17 @@
 
             _inited = true;
         }
+
+
+        function resetBuffer()
+        {
+            mapImg = new buffer(1280, 720);
+            for (var i = 0; i < tiledMap.length; i++)
+                for (var j = 0; j < tiledMap[i].length; j++)
+                    tiledMap[i][j].draw(mapImg.context);
+
+        }
+
 
         function update(dt) {
             if (!_inited) init();
@@ -126,9 +139,19 @@
             _inited = false;
         }
 
+        function killSheep(obj)
+        {
+
+            base.RemoveChild(obj.parent);
+            obj.Die();
+            kebabs.push(sheeps.splice(sheeps.indexOf(obj.parent), 1)[0]);
+
+        }
+
         var gameScene =
         {
             get mapP() { return mapP; },
+            get tiledMap() { return tiledMap; },
             get logs() { return logs; },
             get wolf() { return wolf; },
             get sheeps() { return sheeps; },
@@ -143,7 +166,9 @@
             Render: base.Render,
             AddChild: base.AddChild,
             RemoveChild: base.RemoveChild,
-            UnLoad: unLoad
+            UnLoad: unLoad,
+            resetBuffer : resetBuffer,
+            killSheep : killSheep
         };
 
         return gameScene;
