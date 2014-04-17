@@ -136,6 +136,13 @@
             _inited = false;
         }
 
+        function killSheep(obj)
+        {
+            console.log(obj)
+            base.RemoveChild(obj);
+            kebabs.push(sheeps.splice(sheeps.indexOf(obj), 1));
+        }
+
         var gameScene =
         {
             get mapP() { return mapP; },
@@ -155,7 +162,8 @@
             AddChild: base.AddChild,
             RemoveChild: base.RemoveChild,
             UnLoad: unLoad,
-            resetBuffer : resetBuffer
+            resetBuffer : resetBuffer,
+            killSheep : killSheep
         };
 
         return gameScene;

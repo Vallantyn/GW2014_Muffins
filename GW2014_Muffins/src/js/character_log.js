@@ -146,12 +146,12 @@
             if (gameScene.sheeps.length > 0) {
                 var s = gameScene.ClosestSheepTo(wolf, gameScene.sheeps);
                 if (Math.Dist(wolf, s) < wolf.range) {
-                    gameScene.KillSheep(s);
-                    console.log(s)
+                    //console.log(gameScene.killSheep)
+                    gameScene.killSheep(s);
                     wolf.hunger += wolf.hungerReplenish;
                     if (wolf.hunger > 1) wolf.hunger = 1;
                 }
-                repletion.setHunger(wolf.hunger);
+                //repletion.setHunger(wolf.hunger);
             }
         }
 

@@ -78,12 +78,12 @@
         {
             eventManager.Remove('RUN_END', endFlee);
 
-            console.log((sheep.maxFleeDist - sheep.fleeDist));
+            //console.log((sheep.maxFleeDist - sheep.fleeDist));
 
             var dice = Math.random();
             if (dice >= ((sheep.maxFleeDist - sheep.fleeDist)/sheep.maxFleeDist)*sheep.stopFleeChances)
             {
-                console.debug('stap fleein');
+                //console.debug('stap fleein');
                 sheep.flag &= ~flags.flee;
                 sheep.state = states.IDLE;
 
@@ -279,7 +279,7 @@
 
             if (sheep.flag & flags.flee)
             {
-                console.log('sheep fleein');
+                //console.log('sheep fleein');
 
                 var dir = wolf.x < sheep.x ? 1 : -1;
                 var dist = dir * sheep.speed;
