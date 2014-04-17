@@ -43,7 +43,7 @@
                 curRow++;
                 nmap[curRow] = [];
             }
-            console.log(this.imageObj)
+
             nmap[curRow].push(new Tile(id, tileHeight / 2 + tileHeight * curCol, tileWidth / 2 + curRow * tileWidth, tileWidth, tileHeight, xInImg, yInImg, widthInImg, heightInImg, this.imageObj));
 
             curCol++;
