@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" width="28" height="12" tilewidth="92" tileheight="92">
+ <tileset firstgid="1" name="sprite_decor_fini" tilewidth="92" tileheight="92">
+  <image source="../sprite_decor_fini.png" width="460" height="920"/>
+ </tileset>
+ <layer name="Calque de Tile 1" width="28" height="12">
+  <data encoding="base64" compression="zlib">
+   eJxjYBgFo2AUjIJRQA4AAAVAAAE=
+  </data>
+ </layer>
+ <layer name="walkable" width="28" height="12">
+  <data encoding="base64" compression="zlib">
+   eJxjYBgFAwFYgZgZiBnJ0IcOGKFmwcykxE2kumcUIIACAyQMpbHIKTIg4gdXODNC5ZDVoccnTFyFKi4eeoCNgLwBFNMLAADcuwE4
+  </data>
+ </layer>
+ <layer name="wall" width="28" height="12">
+  <data encoding="base64" compression="zlib">
+   eJy9UtEOwyAI5Emdrd1j+wPrs///dYMMImFqWJPukkttynGW44APVuSCLMgNGZEB+VDfC3NRZ3nfoCEqne5NNQf0QTVP08eLdaIb+d2Ff/rtzjqZbS+rGSjHDC1L8kuGekd+AfU6WS8zszuwQ9s1uX+BazsifgnGGXnn6YX43YUXtBlKHhm+M0pcdyptNLVB6XXeWWmFvf6ilT49v9EdCZWf1sv6BfD9H0zuWblPdfiNKLVvILYJ5Q==
+  </data>
+ </layer>
+ <layer name="wallground" width="28" height="12">
+  <data encoding="base64" compression="zlib">
+   eJxjYBgF1AI6RKpjQuOzkKgPWb0sFnXEmocMhJDYwmToHwWoQAaJjS2O0NWgpwlkoAWlhfCooSaQoJM9MKAPpQ2paCY1zcIHAD3NAbs=
+  </data>
+ </layer>
+ <layer name="trap" width="28" height="12">
+  <data encoding="base64" compression="zlib">
+   eJxjYBgFo2AUjAJUoE1Fc6hl1mAEAIGMAII=
+  </data>
+ </layer>
+</map>
