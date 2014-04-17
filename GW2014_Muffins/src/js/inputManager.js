@@ -18,17 +18,60 @@
         54: 'SKILL_6'
     };
 
+    var buttonEnum =
+    {
+        0: 'LMB',
+        2: 'RMB'
+    };
+
     var keyState = {}
+    var buttonState = {}
 
     function init()
     {
         window.onkeydown = keyChange;
         window.onkeyup = keyChange;
 
-        window.onmousedown = 0;
-        window.onmouseup = 0;
-        window.onmousemove = 0;
+        window.onmousedown = mouseChange;
+        window.onmouseup = mouseChange;
+        window.onmousemove = mouseChange;
     };
+
+    function mouseChange(e)
+    {
+        if (!(e.button in buttonEnum)) return;
+
+        var btn = buttonEnum[e.button];
+        var _state = buttonState[btn];
+
+        if (!_state)
+            var _state =
+            {
+                actual: 0,
+                last: 0
+            };
+
+        _state.last = _state.actual;
+        _state.actual = 0;
+
+        if (e.type == 'mousedown')
+            _state.actual = 1;
+
+        buttonState[btn] = _state;
+
+        if (_state.last != _state.actual) {
+            if (_state.actual == 0) {
+                eventManager.Fire(btn + "_UP");
+            }
+            else {
+                eventManager.Fire(btn + "_DOWN");
+            }
+        }
+        else// if (_state.actual == 1)
+        {
+            eventManager.Fire(btn + "_STAY");
+        }
+    }
 
     function keyChange(e)
     {
