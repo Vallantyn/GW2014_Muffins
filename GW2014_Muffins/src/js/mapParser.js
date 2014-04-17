@@ -5,6 +5,7 @@
         this.walkable = [];
         this.wall = [];
         this.wallground = [];
+        this.killing = [];
     };
 
     mapParser.prototype.tileInXY = function (tileMap, x, y) {
@@ -63,6 +64,8 @@
                         this.wall.push(nmap[curRow][curCol]);
                     if (tiledData.layers[i].name == "wallground")
                         this.wallground.push(nmap[curRow][curCol]);
+                    if (tiledData.layers[i].name == "killing")
+                        this.killing.push(nmap[curRow][curCol]);
                 }
                 if ((j + 1) % tiledData.width == 0) {
                     curCol = -1;

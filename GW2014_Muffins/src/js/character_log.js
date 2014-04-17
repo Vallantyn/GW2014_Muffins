@@ -48,7 +48,7 @@
         eventManager.Add('SKILL_1_UP', eatSheep);
         eventManager.Add('SKILL_2_UP', desguise);
         eventManager.Add('SKILL_3_UP', putLog);
-        //eventManager.Add('SKILL_4_UP', tp);
+        eventManager.Add('SKILL_4_UP', prepareTP);
         eventManager.Add('SKILL_5_UP', dig);
         eventManager.Add('SKILL_6_UP', bridge);
 
@@ -102,6 +102,7 @@
 
 
             if (wolf.jump == true && wolf.grounded) {
+                wolf.y-= 25;
                 wolf.speedY = -wolf.impulsion;
                 wolf.grounded = wolf.jump = false;
             }
@@ -160,10 +161,21 @@
             }
         }
 
+        function prepareTP()
+        {
+            
+            console.log("4 : Teleport, now click ")
+
+            eventManager.Add('LMB_DOWN', tp);
+
+        }
+
         function tp(x, y) {
 
-                        console.log("4 : Teleport ")
+            eventManager.Remove('LMB_DOWN');
 
+            if(!x) x = 600;
+            if(!y) y = 100;
 
             if (wolf.hunger > 0) {
                 wolf.x = x;
