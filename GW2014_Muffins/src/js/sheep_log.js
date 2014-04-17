@@ -1,4 +1,4 @@
-﻿define(['sceneManager', 'tileCollider', 'buffer'], function (sceneManager, TileCollider, buffer)
+﻿define(['sceneManager', 'tileCollider', 'eventManager'], function (sceneManager, TileCollider, eventManager)
 {
     Math.Dist = function (obj1, obj2) {
         var a = { x: (obj1.x > 0) ? obj1.x : 0, y: (obj1.y > 0) ? obj1.y : 0 };
@@ -7,9 +7,108 @@
         return Math.sqrt((b.x - a.x) * (b.x - a.x) + (b.y - a.y) * (b.y - a.y));
     }
 
-    return function Sheep(x, y, id) {
-
+    return function Sheep(x, y, id)
+    {
         var gameScene = sceneManager.currentScene;
+
+        var states =
+        {
+            IDLE:       'idle',
+            MOVING:     'moving',
+            RUNNING:    'running',
+            EATING:     'eating',
+            ROLLING:    'eating',
+            SURPRISE: 'surprise',
+
+            SLASHED:    'slashed',
+            EXPLOSED:   'explosed',
+            EMPALED:    'empaled'
+        };
+
+        var flags =
+        {
+            grounded: 0x1,
+            moving: 0x2,
+            follow: 0x4,
+            flee: 0x10,
+        };
+
+        function needToFlee(obj)
+        {
+            if (sheep.state & states.flee) return false;
+
+            var d = Math.Dist(obj, sheep);
+            return (d < sheep.distOfView && obj.color != "red");
+        }
+
+        function needToFollow(obj)
+        {
+            if (obj)
+            {
+                var d = Math.Dist(obj, sheep)
+                return (d < sheep.distOfView && d >= sheep.distMini);
+            }
+
+            return false;
+        }
+
+        function startMove()
+        {
+            sheep.flag |= flags.moving;
+            sheep.state = states.MOVING;
+
+            eventManager.Add('MOVE_END', endMove);
+        };
+        function endMove()
+        {
+            sheep.flag &= ~flags.moving;
+            sheep.state = states.IDLE;
+
+            eventManager.Remove('MOVE_END', endMove);
+        };
+
+        function startFlee()
+        {
+            sheep.flag |= flags.flee;
+            sheep.state = states.RUNNING;
+
+            eventManager.Add('RUN_END', endFlee);
+        };
+        function endFlee()
+        {
+            eventManager.Remove('RUN_END', endFlee);
+
+            console.log((sheep.maxFleeDist - sheep.fleeDist));
+
+            var dice = Math.random();
+            if (dice >= ((sheep.maxFleeDist - sheep.fleeDist)/sheep.maxFleeDist)*sheep.stopFleeChances)
+            {
+                console.debug('stap fleein');
+                sheep.flag &= ~flags.flee;
+                sheep.state = states.IDLE;
+
+                sheep.fleeDist = 0;
+            }
+            else
+            {
+                startFlee();
+            }
+        };
+
+        function startFollow()
+        {
+            sheep.flag |= flags.follow;
+            sheep.state = states.MOVING;
+
+            eventManager.Add('MOVE_END', endFollow);
+        };
+        function endFollow()
+        {
+            sheep.flag &= ~flags.follow;
+            sheep.state = states.IDLE;
+
+            eventManager.Remove('MOVE_END', endFollow);
+        };
 
         var sheep =
         {
@@ -23,8 +122,13 @@
             distOfView: 150 + Math.random() * 50,
             right: Math.random() > .5 ? true : false,
 
-            //x: 0,
-            //y: 0,
+            state: states.IDLE,
+            flag: 0,
+
+            maxFleeDist: 200,
+            fleeDist: 0,
+            stopFleeChances: .67,
+
             height: 92,
             width: 92,
             //distOfView: 300,
@@ -34,19 +138,22 @@
             color: "red",
             isDead: false,
             leader: null,
-            ID: 0,
+
             isLeader: false,
-            isDead: false,
 
             Move: function (x, y) 
             {
+                sheep.right = x < 0;
+
                 sheep.x += x;
 
                 sheep.y += y;
                 var tx = sheep.x;
                 sheep.x += x;
-                for (var i = 0; i < gameScene.mapP.wallground.length; i++) {
-                    if (sheep.collider.CheckGround(gameScene.mapP.wall[i])) {
+                for (var i = 0; i < gameScene.mapP.wallground.length; i++)
+                {
+                    if (sheep.collider.CheckGround(gameScene.mapP.wall[i]))
+                    {
                         sheep.x = tx;
                         break;
                     }
@@ -59,7 +166,10 @@
                     sheep.leader = obj;
                     var d = Math.Dist(obj, sheep)
 
-                    if (d < sheep.distOfView && d >= sheep.distMini) {
+                    if (d < sheep.distOfView && d >= sheep.distMini)
+                    {
+                        sheep.flag |= flags.follow;
+
                         if (obj.x > sheep.x)
                             sheep.Move(1 * sheep.speed, 0);
                         else
@@ -74,93 +184,141 @@
             {
                 var d = Math.Dist(obj, sheep);
 
-                if (d < sheep.distOfView && obj.color != "red") {
+                if (d < sheep.distOfView && obj.color != "red")
+                {
+                    sheep.flag |= flags.flee;
+
                     if (obj.x >= sheep.x)
                         sheep.Move(-1 * sheep.speed, 0);
                     else
                         sheep.Move(1 * sheep.speed, 0);
+
+                    sheep.state = states.RUNNING;
                     sheep.leader = null;
                     return true;
                 }
                 else return false;
             },
 
-            Render: function () 
-            {
-                //TEMP
-
-                if (sheep.isLeader && !sheep.isDead)
-                    context.fillStyle = "#F99";
-                else
-                    context.fillStyle = sheep.color;
-
-                context.fillRect(sheep.x - sheep.width / 2, sheep.y - sheep.height / 2, sheep.width, sheep.height);
-                context.strokeStyle = "#FFF";
-                context.strokeRect(sheep.x - sheep.width / 2, sheep.y - sheep.height / 2, sheep.width, sheep.height);
-
-                //FUCK IT
-                sheep.CheckGravity();
-            },
-
             CheckGravity: function () 
             {
-                this.grounded = false;
+                sheep.grounded = false;
 
-                for (var i = 0; i < gameScene.mapP.walkable.length; i++) {
-                    if (sheep.collider.CheckGround(gameScene.mapP.walkable[i])) {
+                for (var i = 0; i < gameScene.mapP.walkable.length; i++)
+                {
+                    if (sheep.collider.CheckGround(gameScene.mapP.walkable[i]))
+                    {
+                        sheep.flag |= flags.grounded;
+
                         sheep.grounded = true;
                         sheep.speedY = 0;
                         sheep.y = gameScene.mapP.walkable[i].y - gameScene.mapP.walkable[i].height / 2 - sheep.height / 2 + 1;
                     }
+                    else sheep.flag &= ~flags.grounded;
                 };
 
-                if (!sheep.grounded) {
-                    for (var i = 0; i < gameScene.mapP.wallground.length; i++) {
-                        if (sheep.collider.CheckGround(gameScene.mapP.wallground[i])) {
+                if (!sheep.grounded)
+                {
+                    for (var i = 0; i < gameScene.mapP.wallground.length; i++)
+                    {
+                        if (sheep.collider.CheckGround(gameScene.mapP.wallground[i]))
+                        {
+                            sheep.flag |= flags.grounded;
+
                             sheep.grounded = true;
                             sheep.speedY = 0;
                             sheep.y = gameScene.mapP.wallground[i].y - gameScene.mapP.wallground[i].height / 2 - sheep.height / 2 + 1;
                         }
+                        else sheep.flag &= ~flags.grounded;
                     };
                 }
 
-                sheep.speedY += sheep.grounded ? 0 : .8; //gravity;
+                sheep.speedY += (sheep.flag & flags.grounded) ? 0 : gameScene.gravity;
                 sheep.y += sheep.speedY;
             },
 
             Die: function () {
                 sheep.isDead = true;
                 sheep.color = "#777";
-            },
+            }
         };
 
         function init()
         {
             sheep.collider = new TileCollider(sheep);
+            eventManager.Add('END_RUN', function () { sheep.state = states.IDLE; });
         };
 
         function update(dt)
         {
             var f = false;
+            var wolf = gameScene.wolf.log;
 
-            sheep.Move(0, 0);
             sheep.CheckGravity();
 
-            if (sheep.Flee(gameScene.wolf.log.character))
+            if (sheep.state == states.IDLE || sheep.state == states.EAT)
             {
-                f = true;
-            }
-            if (!f) {
-                if (gameScene.wolf.log.color == "red") { }
-                    //                    sheep.Follow(sheep.ClosestSheepTo(sheep, gameScene.sheeps, true));
+                if (needToFlee(wolf)) // Wolf is there, run for your life dood
+                {
+                    startFlee();
+                }
                 else {
-                    //if(this.moutons[i].leader == null)
-                    //                    sheep.Follow(sheep.ClosestSheepTo(sheep, gameScene.sheeps));
-                    //else 
-                    //	this.moutons[i].Follow(this.moutons[i].leader);
+                    var sheeps = gameScene.sheeps;
+                    for (var i = 0; i < sheeps.length; i++)
+                    {
+                        if (needToFollow(sheeps[i].log)) // Your buddies are movin. Follow them moron !
+                        {
 
+                        }
+                    }
+
+                    // Nothing to do ? Eat as if your life was at stake !!
+                    // ...
                 }
             }
+
+            if (sheep.flag & flags.flee)
+            {
+                console.log('sheep fleein');
+
+                var dir = wolf.x < sheep.x ? 1 : -1;
+                var dist = dir * sheep.speed;
+                sheep.fleeDist += Math.abs(dist);
+
+                sheep.Move(dist, 0);
+            }
+
+            /*
+            check if wolf
+                1 -> flee
+            check if movin sheep
+                1 -> follow
+            idle
+            */
+
+            /*
+
+            if (sheep.Flee(wolf))
+            {
+                sheep.flag |= flags.flee;
+            }
+
+            if (!f)
+            {
+                sheep.state = states.MOVING;
+
+                if (gameScene.wolf.log.color == "red")
+                    sheep.Follow(gameScene.ClosestSheepTo(sheep, true));
+                else
+                {
+                    if(sheep.leader == null)
+                        sheep.Follow(gameScene.ClosestSheepTo(sheep));
+                    else 
+                    	sheep.Follow(sheep.leader);
+                }
+            }
+
+            */
         };
 
         return {

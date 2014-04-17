@@ -24,6 +24,8 @@
         };
 
         return {
+            get log() { return log.sheep; },
+
             Init: init,
             Update: update,
             Render: render

@@ -103,7 +103,7 @@
                 wolf.grounded = wolf.jump = false;
             }
 
-            wolf.speedY += wolf.grounded ? 0 : .8;//gravity;
+            wolf.speedY += wolf.grounded ? 0 : gameScene.gravity;
             wolf.y += wolf.speedY;
 
             var x = wolf.x;

@@ -19,7 +19,7 @@
         };
 
         return {
-            get log() { return log;},
+            get log() { return log.character;},
             Init: init,
             Update: update,
             Render: render
