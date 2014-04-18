@@ -15,6 +15,8 @@
         32: 'JUMP',
         69: 'ACTION',
 
+        77: 'MOUTON',
+
         49: 'SKILL_1',
         50: 'SKILL_2',
         51: 'SKILL_3',
