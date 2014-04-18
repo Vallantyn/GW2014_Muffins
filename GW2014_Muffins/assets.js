@@ -1,6 +1,7 @@
 define(function() {
 return {
     sheep_spritesheet: "sheep_sprite",
+    wolf_spritesheet: "wolf_sprite",
     belier_spritesheet: "belier_sprite",
     tilesetbase: "tilesetbase",
     sprite_decor_blocs : "sprite_decor_blocs",
