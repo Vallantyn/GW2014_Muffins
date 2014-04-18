@@ -6,6 +6,16 @@
 
         var gameScene = sceneManager.currentScene;
 
+        var states = 
+        {
+            STAND: 'stand',
+            WALK: 'walk',
+            JUMP: 'jump',
+            ATTACK: 'attack',
+            DIG: 'dig',
+            BRIDGE: 'bridge'
+        };
+
         var wolf =
         {
             ID: 0,
@@ -13,8 +23,11 @@
             y: y,
             yOffset: -gameScene.groundOffset,
 
-            width: 92,
-            height: 92,
+            right: true,
+            state: states.STAND,
+
+            width: 192,
+            height: 192,
 
             speedY: 0,
             speedX: 6,
@@ -52,22 +65,45 @@
         eventManager.Add('SKILL_5_UP', dig);
         eventManager.Add('SKILL_6_UP', bridge);
 
+        eventManager.Add('WALK_END', endWalk);
+
 
         function moveLeft()
         {
-
+            wolf.state = states.WALK;
             wolf.dir -= 1;
+            if (wolf.dir == 0) wolf.state = states.STAND;
         }
 
-        function moveRight() {
+        function moveRight()
+        {
+            wolf.state = states.WALK;
             wolf.dir += 1;
+            if (wolf.dir == 0) wolf.state = states.STAND;
         }
 
-        function moveJump() {
+        function endWalk()
+        {
+            if (wolf.dir == 0) wolf.state = states.STAND;
+        }
+
+        function moveJump()
+        {
+            wolf.state = states.JUMP;
             wolf.jump = true;
         }
 
         function move() {
+
+            if (wolf.dir > 0)
+            {
+                wolf.right = false;
+            }
+            else if (wolf.dir < 0)
+            {
+                wolf.right = true;
+            }
+
             wolf.grounded = false;
 
             for (var i = 0; i < gameScene.mapP.walkable.length; i++) {
@@ -211,7 +247,15 @@
 
             if (wolf.hunger > 0) {
                 //pose une buche
-                gameScene.logs.push(new Log(wolf.x, wolf.y));
+                var log = new Log(wolf.x, wolf.y);
+                gameScene.logs.push(log);
+                gameScene.AddChild(log);
+
+                if (gameScene.logs.length > 2)
+                {
+                    gameScene.logs[0].forceRemove();
+                }
+
                 wolf.hunger -= wolf.hungerCost;
                 if (wolf.hunger < 0) wolf.hunger = 0;
 

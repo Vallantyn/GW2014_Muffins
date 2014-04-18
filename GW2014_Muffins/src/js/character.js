@@ -15,7 +15,7 @@
         };
 
         function render(cx) {
-            gfx.Render(cx, log.character.x, log.character.y + log.character.yOffset);
+            gfx.Render(cx, log.character);
         };
 
         return {

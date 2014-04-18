@@ -155,6 +155,11 @@
                 kebabs[i].log.x += x;
                 kebabs[i].log.y += y;
             };
+
+            for (var i = 0; i < logs.length; i++) {
+                logs[i].x += x;
+                logs[i].y += y;
+            };
         }
 
         function resetBuffer()
