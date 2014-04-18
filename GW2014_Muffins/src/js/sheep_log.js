@@ -389,9 +389,9 @@
                 }
             }
 
-            if (sheep.state == states.MOVING && moveJump) {
-                sheep.y -= 24;
-            }
+            //if (sheep.state == states.MOVING && moveJump) {
+              //  sheep.y -= 24;
+            //}
 
             if (sheep.flag & flags.flee && sheep.state == states.RUNNING) {
                 var dir = wolf.x < sheep.x ? 1 : -1;

@@ -26,8 +26,8 @@
             right: true,
             state: states.STAND,
 
-            width: 192,
-            height: 192,
+            width: 96,
+            height: 96,
 
             speedY: 0,
             speedX: 6,
@@ -58,7 +58,7 @@
 
         eventManager.Add('JUMP_UP', moveJump);
 
-        eventManager.Add('SKILL_1_UP', eatSheep);
+        eventManager.Add('SKILL_1_UP', attack);
         eventManager.Add('SKILL_2_UP', dig);
         eventManager.Add('SKILL_3_UP', desguise);
         eventManager.Add('SKILL_4_UP', putLog);
@@ -185,6 +185,18 @@
 
         function boom() {
 
+        }
+
+        function attack()
+        {
+            wolf.state = states.ATTACK;
+            eventManager.Add('ATTACK_HIT', eatSheep);
+            eventManager.Add('ATTACK_END', clearAttack);
+        }
+
+        function clearAttack()
+        {
+            wolf.state = states.STAND;
         }
 
         function eatSheep() {

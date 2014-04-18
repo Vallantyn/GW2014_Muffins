@@ -35,8 +35,8 @@
             sprite.AddAnim(anims.JUMP + '_R', new spriteAnimation(0, 0, 9, 100));
             sprite.AddAnim(anims.JUMP + '_L', new spriteAnimation(1, 0, 9, 100));
 
-            sprite.AddAnim(anims.ATTACK + '_R', new spriteAnimation(6, 0, 14, 100));
-            sprite.AddAnim(anims.ATTACK + '_L', new spriteAnimation(7, 0, 14, 100));
+            sprite.AddAnim(anims.ATTACK + '_R', new spriteAnimation(6, 0, 14, 50));
+            sprite.AddAnim(anims.ATTACK + '_L', new spriteAnimation(7, 0, 14, 50));
 
             sprite.AddAnim(anims.DIG + '_R', new spriteAnimation(6, 0, 14, 100));
             sprite.AddAnim(anims.DIG + '_L', new spriteAnimation(7, 0, 14, 100));
@@ -46,6 +46,10 @@
 
             sprite.AddEvent(anims.WALK + '_R', 5, 'WALK_END');
             sprite.AddEvent(anims.WALK + '_L', 5, 'WALK_END');
+            sprite.AddEvent(anims.ATTACK + '_R', 6, 'ATTACK_HIT');
+            sprite.AddEvent(anims.ATTACK + '_L', 6, 'ATTACK_HIT');
+            sprite.AddEvent(anims.ATTACK + '_R', 13, 'ATTACK_END');
+            sprite.AddEvent(anims.ATTACK + '_L', 13, 'ATTACK_END');
         };
 
         function update(dt)
@@ -80,13 +84,11 @@
 
             anim += wolf.right ? '_R' : '_L';
 
-            console.log(anim);
-
             cx.strokeStyle = 'lime';
-            cx.strokeRect(wolf.x - wolf.width / 2, wolf.y - wolf.yOffset - wolf.height/2, wolf.width, wolf.height);
+            cx.strokeRect(wolf.x - wolf.width / 2, wolf.y - wolf.height/2, wolf.width, wolf.height);
 
             sprite.Play(anim);
-            sprite.Render(cx, wolf.x - wolf.width / 2, wolf.y - wolf.yOffset - wolf.height / 2);
+            sprite.Render(cx, wolf.x - 96, wolf.y - wolf.yOffset - 144);
         };
 
         return {
