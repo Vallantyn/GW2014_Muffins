@@ -150,6 +150,11 @@
                 sheeps[i].log.x += x;
                 sheeps[i].log.y += y;
             };
+
+            for (var i = 0; i < kebabs.length; i++) {
+                kebabs[i].log.x += x;
+                kebabs[i].log.y += y;
+            };
         }
 
         function resetBuffer()
@@ -178,11 +183,9 @@
 
         function killSheep(obj)
         {
-
-            base.RemoveChild(obj.parent);
+//            base.RemoveChild(obj.parent);
             obj.Die();
             kebabs.push(sheeps.splice(sheeps.indexOf(obj.parent), 1)[0]);
-
         }
 
         var gameScene =

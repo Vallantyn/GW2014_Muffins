@@ -1,4 +1,4 @@
-﻿define(['sheep_gfx', 'sheep_log'], function (sheepGfx, sheepLog)
+﻿define(['sheep_gfx', 'sheep_log', 'eventManager'], function (sheepGfx, sheepLog, eventManager)
 {
     return function Sheep(x, y, id)
     {
@@ -11,6 +11,7 @@
             log.Init();
             gfx.Init(log.sheep.yOffset);
             log.sheep.parent = this;
+
             //console.log(log.sheep)
         };
 
