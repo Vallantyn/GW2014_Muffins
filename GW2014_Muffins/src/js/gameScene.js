@@ -51,7 +51,7 @@
                 }
             };
 
-            if(isWolfHidden &&  wolf != target && wolf.log.isLeader)
+            if(wolf.log.isHidden && wolf.log != target && wolf.log.isLeader)
             {
                 var d = Math.Dist(wolf.log, target);
 
@@ -64,7 +64,6 @@
             
             if(ret == null)
             {
-
                 for (var i = 0; i < sheeps.length; i++)
                 {
                     var sheep = sheeps[i].log;
@@ -86,7 +85,6 @@
                     }
                 };
             }
-            
 
             //if(cube != target && cube.color == "red")
             //  moutonList.pop();

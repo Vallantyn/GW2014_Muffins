@@ -1,6 +1,9 @@
 ﻿define(['sceneManager', 'tileCollider', 'eventManager'], function (sceneManager, TileCollider, eventManager)
 {
     Math.Dist = function (obj1, obj2) {
+        if (obj1 == null || obj2 == null) {
+            return Infinity;
+        }
         var a = { x: (obj1.x > 0) ? obj1.x : 0, y: (obj1.y > 0) ? obj1.y : 0 };
         var b = { x: (obj2.x > 0) ? obj2.x : 0, y: (obj2.y > 0) ? obj2.y : 0 };
 

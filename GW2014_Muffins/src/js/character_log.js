@@ -1,12 +1,10 @@
 
-﻿define(['sceneManager', 'tileCollider', 'log', 'eventManager'], function (sceneManager, TileCollider, Log, eventManager)
-{
-    return function CharacterLOG(x, y)
-    {
+define(['sceneManager', 'tileCollider', 'log', 'eventManager', 'fume_fx'], function (sceneManager, TileCollider, Log, eventManager, fume_fx) {
+    return function CharacterLOG(x, y) {
 
         var gameScene = sceneManager.currentScene;
 
-        var states = 
+        var states =
         {
             STAND: 'stand',
             WALK: 'walk',
@@ -45,7 +43,8 @@
             hungerReplenish: 0.2,
             hungerCost: 0.1,
             isLeader: true,
-            isBridge : false,
+            isBridge: false,
+            isHidden: false,
             grounded: false,
             collider: null
         };
@@ -60,47 +59,41 @@
 
         eventManager.Add('SKILL_1_UP', attack);
         eventManager.Add('SKILL_2_UP', dig);
-        eventManager.Add('SKILL_3_UP', desguise);
-        eventManager.Add('SKILL_4_UP', putLog);
+        eventManager.Add('SKILL_3_UP', desguise_bomb);
+        eventManager.Add('SKILL_4_UP', logBomb);
         eventManager.Add('SKILL_5_UP', prepareTP);
         eventManager.Add('SKILL_6_UP', bridge);
 
         eventManager.Add('WALK_END', endWalk);
 
 
-        function moveLeft()
-        {
+        function moveLeft() {
             wolf.state = states.WALK;
             wolf.dir -= 1;
             if (wolf.dir == 0) wolf.state = states.STAND;
         }
 
-        function moveRight()
-        {
+        function moveRight() {
             wolf.state = states.WALK;
             wolf.dir += 1;
             if (wolf.dir == 0) wolf.state = states.STAND;
         }
 
-        function endWalk()
-        {
+        function endWalk() {
             if (wolf.dir == 0) wolf.state = states.STAND;
         }
 
-        function moveJump()
-        {
+        function moveJump() {
             wolf.state = states.JUMP;
             wolf.jump = true;
         }
 
         function move() {
 
-            if (wolf.dir > 0)
-            {
+            if (wolf.dir > 0) {
                 wolf.right = false;
             }
-            else if (wolf.dir < 0)
-            {
+            else if (wolf.dir < 0) {
                 wolf.right = true;
             }
 
@@ -138,7 +131,7 @@
 
 
             if (wolf.jump == true && wolf.grounded) {
-                wolf.y-= 25;
+                wolf.y -= 25;
                 wolf.speedY = -wolf.impulsion;
                 wolf.grounded = wolf.jump = false;
             }
@@ -162,24 +155,43 @@
 
         };
 
-        function desguise() {
-             console.log("2 : Desguise ")
+        var fx;
 
+        function desguise_bomb() {
+            if (fx != null) return;
 
-            if (wolf.hunger > 0) {
-                if (wolf.color != "red") {
-                    wolf.color = "red";
-                    wolf.speedX = 2;
-                    wolf.hunger -= wolf.hungerCost;
-                    if (wolf.hunger < 0) wolf.hunger = 0;
-                }
-                else {
-                    wolf.color = "blue";
-                    wolf.speedX = 6;
-                }
-
-
+            if (wolf.hunger > 0 || wolf.isHidden)
+            {
+                fx = new fume_fx('disguise')
+                gameScene.AddChild(fx);
+                eventManager.Add('DISGUISE_FX_CHANGE', desguise);
+                eventManager.Add('DISGUISE_FX_END', end_desguise_bomb);
             }
+        }
+
+        function end_desguise_bomb() {
+            eventManager.Remove('DISGUISE_FX_END', end_desguise_bomb);
+            gameScene.RemoveChild(fx);
+            fx = null;
+        }
+
+        function desguise() {
+            eventManager.Remove('DISGUISE_FX_CHANGE', desguise);
+            console.log("2 : Desguise ")
+
+            if (!wolf.isHidden) {
+                wolf.isHidden = true;
+                wolf.color = "red";
+                wolf.speedX = 2;
+                wolf.hunger -= wolf.hungerCost;
+                if (wolf.hunger < 0) wolf.hunger = 0;
+            }
+            else if (wolf.isHidden) {
+                wolf.isHidden = false;
+                wolf.color = "blue";
+                wolf.speedX = 6;
+            }
+
             gameScene.ui.setHunger(wolf.hunger);
         }
 
@@ -187,15 +199,17 @@
 
         }
 
-        function attack()
-        {
+        function attack() {
+            wolf.isHidden = false;
+            wolf.color = "blue";
+            wolf.speedX = 6;
+
             wolf.state = states.ATTACK;
             eventManager.Add('ATTACK_HIT', eatSheep);
             eventManager.Add('ATTACK_END', clearAttack);
         }
 
-        function clearAttack()
-        {
+        function clearAttack() {
             wolf.state = states.STAND;
         }
 
@@ -205,6 +219,7 @@
             console.log("Eat Sheep ")
             if (gameScene.sheeps.length > 0) {
                 var s = gameScene.ClosestSheepTo(wolf, false);
+
                 if (Math.Dist(wolf, s) < wolf.range) {
                     //gameScene.killSheep(s);
 
@@ -217,19 +232,17 @@
             }
         }
 
-        function prepareTP()
-        {
-            
+        function prepareTP() {
+
             console.log("Teleport, now click ")
-            if (wolf.hunger > 0) 
-            {
+            if (wolf.hunger > 0) {
                 eventManager.Add('LMB_DOWN', tp);
 
                 wolf.hunger -= wolf.hungerCost;
 
                 if (wolf.hunger < 0) wolf.hunger = 0;
 
-               gameScene.ui.setHunger(wolf.hunger);
+                gameScene.ui.setHunger(wolf.hunger);
 
             }
 
@@ -242,70 +255,79 @@
             var x = obj.x;
             var y = obj.y;
 
-            if(!obj.x) x = 600;
-            if(!obj.y) y = 100;
+            if (!obj.x) x = 600;
+            if (!obj.y) y = 100;
 
-            var dx = x - wolf.x ;
+            var dx = x - wolf.x;
 
-            gameScene.moveMap(-dx , 0);
-        
+            gameScene.moveMap(-dx, 0);
+
             wolf.y = y;
+        }
 
+        function logBomb() {
 
-            
+            if (fx != null) return;
+
+            if (wolf.hunger > 0) {
+                fx = new fume_fx('log')
+                gameScene.AddChild(fx);
+                eventManager.Add('LOG_FX_SPAWN', putLog);
+                eventManager.Add('LOG_FX_END', endLogBomb);
+            }
+        }
+
+        function endLogBomb() {
+            gameScene.RemoveChild(fx);
+            fx = null;
+
+            eventManager.Remove('LOG_FX_END', endLogBomb);
         }
 
         function putLog() {
             console.log("Put Log ")
 
-            if (wolf.hunger > 0) {
-                //pose une buche
-                var log = new Log(wolf.x, wolf.y);
-                gameScene.logs.push(log);
-                gameScene.AddChild(log);
+            eventManager.Remove('LOG_FX_SPAWN', putLog);
 
-                if (gameScene.logs.length > 2)
-                {
-                    gameScene.logs[0].forceRemove();
-                }
+            //pose une buche
+            var log = new Log(wolf.x, wolf.y);
+            gameScene.logs.push(log);
+            gameScene.AddChild(log);
 
-                wolf.hunger -= wolf.hungerCost;
-                if (wolf.hunger < 0) wolf.hunger = 0;
-
-                gameScene.ui.setHunger(wolf.hunger);
+            if (gameScene.logs.length > 2) {
+                gameScene.logs[0].forceRemove();
             }
+
+            wolf.hunger -= wolf.hungerCost;
+            if (wolf.hunger < 0) wolf.hunger = 0;
+
+            gameScene.ui.setHunger(wolf.hunger);
         }
 
-
-        function dig()
-        {
+        function dig() {
             console.log(" Dig ")
 
-            if (wolf.hunger > 0) 
-            {
-              //DIG
+            if (wolf.hunger > 0) {
+                //DIG
                 var tm = sceneManager.currentScene.tiledMap;
                 var mp = sceneManager.currentScene.mapP;
 
-                for (var i = 0; i < tm.length; i++) 
-                {
-                    var t = mp.tileInXY(tm[i], wolf.x+ wolf.width/2,wolf.y + wolf.height);
-                    if(t)
-                    {
+                for (var i = 0; i < tm.length; i++) {
+                    var t = mp.tileInXY(tm[i], wolf.x + wolf.width / 2, wolf.y + wolf.height);
+                    if (t) {
                         t.img = null;
                         var ind = mp.walkable.indexOf(t);
-                        if(ind == -1)
-                        {
+                        if (ind == -1) {
                             ind = mp.wallground.indexOf(t);
-                            mp.wallground.splice(ind,1);
+                            mp.wallground.splice(ind, 1);
 
                         }
                         else
-                            mp.walkable.splice(ind,1);
+                            mp.walkable.splice(ind, 1);
 
                         sceneManager.currentScene.resetBuffer();
                         break;
-                    } 
+                    }
                 };
 
                 wolf.hunger -= wolf.hungerCost;
@@ -317,14 +339,12 @@
         }
 
 
-        function bridge(x, y)
-        {
+        function bridge(x, y) {
             console.log(" Bridge ")
 
-            if (wolf.hunger > 0) 
-            {
+            if (wolf.hunger > 0) {
                 wolf.isBridge = true;
-               
+
 
                 wolf.hunger -= wolf.hungerCost;
                 if (wolf.hunger < 0) wolf.hunger = 0;
