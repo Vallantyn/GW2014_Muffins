@@ -1,4 +1,4 @@
-﻿define(['scene', 'mapParser', 'buffer', 'character', 'sheep','ui'],function (scene, mapParser, buffer, character, sheep, UI)
+﻿define(['scene', 'mapParser', 'buffer', 'character', 'sheep','ui', 'background', "assetManager"],function (scene, mapParser, buffer, character, sheep, UI, background, assetManager)
 {
     return function GameScene(map, initCb)
     {
@@ -17,6 +17,7 @@
         var mapImg;
         var tiledMap;
         var ui;
+        var bg;
 
         function ClosestSheepTo(target, isWolfHidden)
         {
@@ -107,6 +108,12 @@
 
             resetBuffer();
 
+
+            var t = [assetManager.Get("plx1"),assetManager.Get("plx2"),assetManager.Get("plx3"),assetManager.Get("plx4"),assetManager.Get("plx5")];
+            bg = new background(t);
+
+            base.AddChild(bg);
+
             wolf = new character(1280/2 - 184/2, 10);
             base.AddChild(wolf);
 
@@ -150,6 +157,9 @@
                 sheeps[i].log.x += x;
                 sheeps[i].log.y += y;
             };
+
+            bg.Move(x);
+
         }
 
         function resetBuffer()
@@ -189,6 +199,7 @@
         {
             get mapP() { return mapP; },
             get ui() { return ui; },
+            get bg() { return bg; },
             get tiledMap() { return tiledMap; },
             get logs() { return logs; },
             get wolf() { return wolf; },

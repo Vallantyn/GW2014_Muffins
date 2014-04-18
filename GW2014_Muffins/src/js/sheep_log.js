@@ -48,17 +48,22 @@
             if (target)
             {
                 
-                    if (!sheep.leader || b) {
-                        var d = Math.Dist(target, sheep)
+                if(sheep.leader)
+                    if(!gameScene.GetSheep(sheep.leader))
+                        sheep.leader = null;
 
-                        if (d < sheep.distOfView && d >= sheep.distMini)
-                        {
-                            sheep.leader = target.ID;
-                            return true;
-                        }
+
+                if (!sheep.leader || b) {
+                    var d = Math.Dist(target, sheep)
+
+                    if (d < sheep.distOfView && d >= sheep.distMini)
+                    {
+                        sheep.leader = target.ID;
+                        return true;
                     }
-                    else if(Math.Dist(gameScene.GetSheep(sheep.leader), sheep) >= sheep.distMini ) return false;
-                    else return true;
+                }
+                else if(Math.Dist(gameScene.GetSheep(sheep.leader), sheep) >= sheep.distMini ) return false;
+                else return true;
                     
                 
                     
@@ -173,18 +178,30 @@
                 sheep.y += y;
                 var tx = sheep.x;
                 sheep.x += x;
-                for (var i = 0; i < gameScene.mapP.wallground.length; i++)
+                for (var i = 0; i < gameScene.mapP.wall.length; i++)
                 {
                     if (sheep.collider.CheckGround(gameScene.mapP.wall[i]))
                     {
-                        if(sheep.x > gameScene.mapP.wall[i].x)
-                            sheep.x = gameScene.mapP.wall[i].x + gameScene.mapP.wall[i].width/2 ; 
+                        if(sheep.x > gameScene.mapP.wall[i].x + gameScene.mapP.wall[i].width/2)
+                            sheep.x = gameScene.mapP.wall[i].x + gameScene.mapP.wall[i].width  ; 
                         else
-                            sheep.x = gameScene.mapP.wall[i].x - gameScene.mapP.wall[i].width/2 ; 
-
+                            sheep.x = gameScene.mapP.wall[i].x - sheep.width - gameScene.mapP.wall[i].width/2  ; 
+                        
                         break;
                     }
                 }
+
+                for (var i = 0; i < gameScene.mapP.killing.length; i++)
+                {
+                    if (sheep.collider.CheckGround(gameScene.mapP.killing[i]))
+                    {
+                        gameScene.killSheep(sheep);
+                        break;
+                    }
+                }
+
+
+
             },
 
             Follow: function (obj)
