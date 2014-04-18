@@ -66,7 +66,6 @@ define(['sceneManager', 'tileCollider', 'log', 'eventManager', 'fume_fx'], funct
         eventManager.Add('SKILL_6_UP', bridge);
 
         eventManager.Add('WALK_END', endWalk);
-        eventManager.Add('DIG_END', clearAttack);
 
 
         function moveLeft() {
@@ -215,11 +214,13 @@ define(['sceneManager', 'tileCollider', 'log', 'eventManager', 'fume_fx'], funct
         }
 
         function clearAttack() {
+            eventManager.Remove('ATTACK_END', clearAttack);
             wolf.state = states.STAND;
         }
 
         function eatSheep() {
             //Je sais, c'est horrible
+            eventManager.Remove('ATTACK_HIT', eatSheep);
 
             console.log("Eat Sheep ")
             if (gameScene.sheeps.length > 0) {
@@ -320,6 +321,8 @@ define(['sceneManager', 'tileCollider', 'log', 'eventManager', 'fume_fx'], funct
 
             if (wolf.hunger > 0) {
                 //DIG
+                eventManager.Add('DIG_END', clearDig);
+
                 var tm = sceneManager.currentScene.tiledMap;
                 var mp = sceneManager.currentScene.mapP;
 
@@ -344,13 +347,19 @@ define(['sceneManager', 'tileCollider', 'log', 'eventManager', 'fume_fx'], funct
                         break;
                     }
                 };
-                eventManager.Add('DIG_END', clearAttack);
+
                 wolf.hunger -= wolf.hungerCost;
                 if (wolf.hunger < 0) wolf.hunger = 0;
 
             }
 
             gameScene.ui.setHunger(wolf.hunger);
+        }
+
+        function clearDig()
+        {
+            eventManager.Remove('DIG_END', clearDig);
+            wolf.state = states.STAND;
         }
 
 
