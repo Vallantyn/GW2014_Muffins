@@ -107,7 +107,7 @@
         function init()
         {
             tiledMap = mapP.parse(map);
-
+            mapImg = new buffer(1280, 720);
             resetBuffer();
 
 
@@ -123,9 +123,11 @@
             {
                 var dx = 300 - Math.random() * 600;
 
-                var s = new sheep(600 + dx , 250, i+1);
+                if(i == 3) 
+                    var s = new sheep(600 + dx , 250, i+1, true);
+                else
+                    var s = new sheep(600 + dx , 250, i+1);
 
-                if(i == 3) s.log.isLeader = true;
 
                 sheeps.push(s);
                 base.AddChild(s);
@@ -174,7 +176,7 @@
 
         function resetBuffer()
         {
-            mapImg = new buffer(1280, 720);
+            mapImg.context.clearRect(0,0,1280,720);
             for (var i = 0; i < tiledMap.length; i++)
                 for (var j = 0; j < tiledMap[i].length; j++)
                     tiledMap[i][j].draw(mapImg.context);

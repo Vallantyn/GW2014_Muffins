@@ -6,12 +6,12 @@
         log = new sheepLog(x, y, id);
         gfx = new sheepGfx();
 
-        if(leader) log.sheep.leader = true;
+        if(leader) log.sheep.isLeader = true;
 
         function init()
         {
             log.Init();
-            gfx.Init(log.sheep.yOffset, log.sheep.leader);
+            gfx.Init(log.sheep.yOffset, log.sheep.isLeader);
             log.sheep.parent = this;
 
             //console.log(log.sheep)
