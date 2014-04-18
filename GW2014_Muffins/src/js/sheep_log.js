@@ -202,6 +202,7 @@
             isDying: false,
             isDead: false,
             leader: null,
+            isSaved : false,
 
             isLeader: false,
 
@@ -231,11 +232,32 @@
                 {
                     if (sheep.collider.CheckGround(gameScene.mapP.killing[i]))
                     {
-                        gameScene.killSheep(sheep);
+                        sheep.x = gameScene.mapP.killing[i].x - gameScene.mapP.killing[i].width/2;
+                        sheep.y = gameScene.mapP.killing[i].y - gameScene.mapP.killing[i].height/2;
+                        sheepKilled(sheep);
+                        var a = gameScene.mapP.killing.splice(i, 1);
+                        gameScene.mapP.walkable.push(a[0]);
                         break;
                     }
                 }
+                if(!sheep.isSaved)
+                {
+                    for (var i = 0; i < gameScene.mapP.winning.length; i++)
+                    {
+                        if (sheep.collider.CheckGround(gameScene.mapP.winning[i]))
+                        {
+                            sheep.isSaved = true;
+                            gameScene.RemoveChild(sheep.parent);
+                            gameScene.sheepsSaved.push(gameScene.sheeps.splice(gameScene.sheeps.indexOf(sheep), 1));
+                            
+                            if(gameScene.sheepsSaved.length >= gameScene.sheepsNeeded)
+                                alert("Level Win");
+                            
+                            break;
+                        }
+                    }
 
+                }
 
 
             },
