@@ -57,6 +57,7 @@
                         sheep.leader = null;
 
 
+
                 if (!sheep.leader || b) {
                     var d = Math.Dist(target, sheep)
 
@@ -66,6 +67,11 @@
                         return true;
                     }
                 }
+                else if(gameScene.GetSheep(sheep.leader).log.isWandering && Math.Dist(gameScene.GetSheep(sheep.leader), sheep) >= sheep.distMini)
+                {
+                    console.log("lol")
+                    return true;
+                } 
                 else if(Math.Dist(gameScene.GetSheep(sheep.leader), sheep) >= sheep.distMini ) return false;
                 else return true;
                     
@@ -203,7 +209,7 @@
             isDead: false,
             leader: null,
             isSaved : false,
-
+            isWandering : false,
             isLeader: false,
 
             Move: function (x, y) 
@@ -284,6 +290,9 @@
 
             Flee: function (obj) 
             {
+                if(sheep.isLeader)
+                    sheep.isWandering = false;
+
                 var d = Math.Dist(obj, sheep);
 
                 if (d < sheep.distOfView && obj.color != "red")
@@ -300,6 +309,21 @@
                     return true;
                 }   
                 else return false;
+            },
+
+            StartWander : function(right)
+            {
+                sheep.right = right;
+                sheep.isWandering = true;
+                //sheep.Move((right ? 1 : -1) * sheep.speed, 0);
+            },
+
+            Wander : function(dt)
+            {
+                if(Math.random() > 0.99)
+                    sheep.isWandering = false;
+
+                sheep.Move((sheep.right ? -1 : 1) * sheep.speed * dt , 0);
             },
 
             CheckGravity: function () 
@@ -379,13 +403,20 @@
             if (sheep.state == states.IDLE || sheep.state == states.EAT) {
                 if (needToFlee(wolf)) // Wolf is there, run for your life dood
                 {
+ 
+
                     wolfSpotted();
                 }
-                else if (needToFollow()) {
+                else if (needToFollow() && !sheep.isLeader) {
                     startFollow();
                 }
                 else {
 
+                    if(sheep.isLeader && !sheep.isWandering)
+                        Math.random() > 0.99 ? sheep.StartWander(Math.random() > 0.5 ? true : false) : false;
+
+                    if(sheep.isWandering)
+                        sheep.Wander(dt);
                 }
             }
 
@@ -408,6 +439,11 @@
                     sheep.Move(dist, 0);
                 }
             }
+
+            if(sheep.y > gameScene.zdeath)
+                sheepKilled(sheep);
+
+
 
             /*
             check if wolf

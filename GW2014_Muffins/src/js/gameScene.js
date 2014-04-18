@@ -20,6 +20,7 @@
         var tiledMap;
         var ui;
         var bg;
+        var zdeath = 1000;
 
         function ClosestSheepTo(target, isWolfHidden)
         {
@@ -119,11 +120,11 @@
             wolf = new character(1280/2 - 184/2, 10);
             base.AddChild(wolf);
 
-            for (var i = 0; i < 7; i++)
+            for (var i = 0; i < 9; i++)
             {
                 var dx = 300 - Math.random() * 600;
 
-                if(i == 3) 
+                if(i == 3 ) 
                     var s = new sheep(600 + dx , 250, i+1, true);
                 else
                     var s = new sheep(600 + dx , 250, i+1);
@@ -221,6 +222,7 @@
             get sheepsSaved() {return sheepsSaved;},
             get sheepsNeeded() { return sheepsNeeded;},
             get kebabs() { return kebabs; },
+            get zdeath() { return zdeath; },
 
             get groundOffset() { return groundOffset; },
             get gravity() { return gravity;},

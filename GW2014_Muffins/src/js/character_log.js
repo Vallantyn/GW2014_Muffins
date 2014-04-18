@@ -21,6 +21,7 @@
             ID: 0,
             x: x,
             y: y,
+            initPos : { x : x, y : y},
             yOffset: -gameScene.groundOffset,
 
             right: true,
@@ -107,7 +108,7 @@
             wolf.grounded = false;
 
             for (var i = 0; i < gameScene.mapP.walkable.length; i++) {
-                if (wolf.collider.CheckGround(gameScene.mapP.walkable[i])) {
+                if (wolf.collider.CheckGround(gameScene.mapP.walkable[i]) && wolf.y < gameScene.mapP.walkable[i].y) {
                     wolf.grounded = true;
                     wolf.countjump = 0;
                     //this.y = gameScene.mapP.walkable[i].y - gameScene.mapP.walkable[i].height - this.height/2;
@@ -150,13 +151,16 @@
             gameScene.moveMap(-wolf.dir * wolf.speedX, 0);
 
             // wolf.x += /*(Input.rightKey - Input.leftKey)*/ wolf.dir * wolf.speedX;
-            for (var i = 0; i < gameScene.mapP.wallground.length; i++) {
+            for (var i = 0; i < gameScene.mapP.wall.length; i++) {
                 if (wolf.collider.CheckGround(gameScene.mapP.wall[i])) {
                     gameScene.moveMap(wolf.dir * wolf.speedX, 0);
 
                     break;
                 }
             }
+
+            if(wolf.y > gameScene.zdeath)
+                tp(wolf.initPos);
 
             gameScene.resetBuffer();
 
@@ -246,10 +250,10 @@
             if(!obj.y) y = 100;
 
             var dx = x - wolf.x ;
-
+            wolf.y = y;
+            //wolf.x = x;
             gameScene.moveMap(-dx , 0);
         
-            wolf.y = y;
 
 
             
@@ -335,6 +339,8 @@
 
         function init() {
             wolf.collider = new TileCollider(wolf);
+            console.log(wolf.initPos)
+
         };
 
 
