@@ -43,8 +43,8 @@
                 sp.AddAnim(anims.ATTACK + '_R', new spriteAnimation(6, 0, 14, 50));
                 sp.AddAnim(anims.ATTACK + '_L', new spriteAnimation(7, 0, 14, 50));
 
-                sp.AddAnim(anims.DIG + '_R', new spriteAnimation(6, 0, 14, 100));
-                sp.AddAnim(anims.DIG + '_L', new spriteAnimation(7, 0, 14, 100));
+                sp.AddAnim(anims.DIG + '_R', new spriteAnimation(10, 0, 4, 100));
+                sp.AddAnim(anims.DIG + '_L', new spriteAnimation(11, 0, 4, 100));
 
                 sp.AddAnim(anims.BRIDGE + '_R', new spriteAnimation(4, 0, 12, 100));
                 sp.AddAnim(anims.BRIDGE + '_L', new spriteAnimation(5, 0, 12, 100));
@@ -55,6 +55,8 @@
                 sp.AddEvent(anims.ATTACK + '_L', 6, 'ATTACK_HIT');
                 sp.AddEvent(anims.ATTACK + '_R', 13, 'ATTACK_END');
                 sp.AddEvent(anims.ATTACK + '_L', 13, 'ATTACK_END');
+                sp.AddEvent(anims.DIG + '_R', 3, 'DIG_END');
+                sp.AddEvent(anims.DIG + '_L', 3, 'DIG_END');
             }
         };
 
