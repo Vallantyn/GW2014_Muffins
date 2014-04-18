@@ -22,7 +22,9 @@
 
             SLASHED:    'slashed',
             EXPLOSED:   'explosed',
-            EMPALED:    'empaled'
+            EMPALED: 'empaled',
+
+            DEAD:    'dead'
         };
 
         var flags =
@@ -30,8 +32,10 @@
             grounded: 0x1,
             moving: 0x2,
             follow: 0x4,
-            flee: 0x10,
+            flee: 0x8,
         };
+        
+        var moveJump = false;
 
         function needToFlee(obj)
         {
@@ -137,6 +141,37 @@
             eventManager.Remove('MOVE_END', endFollow);
         };
 
+        function startMoveJump() {
+            moveJump = true;
+        };
+        function endMoveJump() {
+            moveJump = false;
+        };
+
+        function sheepKilled(s)
+        {
+            if (s == sheep)
+            {
+                sheep.isDying = true;
+                eventManager.Remove('EAT_SHEEP', sheepKilled);
+
+                sheep.state = states.SLASHED;
+                eventManager.Add('DEAD_N_COLD', sheepDead);
+            }
+        }
+
+        function sheepDead()
+        {
+            eventManager.Remove('DEAD_N_COLD', sheepDead);
+
+            eventManager.Remove('END_RUN', function () { sheep.state = states.IDLE; });
+            eventManager.Remove('MOVE_JUMP_START', startMoveJump);
+            eventManager.Remove('MOVE_JUMP_END', endMoveJump);
+            sheep.state = states.DEAD;
+
+            gameScene.killSheep(sheep);
+        }
+
         var sheep =
         {
             ID: id,
@@ -164,6 +199,7 @@
             fleeSpeed: 100,
             speedY: 0,
             color: "red",
+            isDying: false,
             isDead: false,
             leader: null,
 
@@ -292,33 +328,50 @@
         {
             sheep.collider = new TileCollider(sheep);
             eventManager.Add('END_RUN', function () { sheep.state = states.IDLE; });
+            eventManager.Add('MOVE_JUMP_START', startMoveJump);
+            eventManager.Add('MOVE_JUMP_END', endMoveJump);
+            eventManager.Add('EAT_SHEEP', sheepKilled);
         };
 
         function update(dt)
         {
+            if (sheep.isDying)
+            {
+                if (sheep.isDead)
+                {
+                    sheep.state = states.DEAD;
+                }
+                else
+                {
+                    sheep.state = states.SLASHED;
+                }
+
+                return;
+            }
+
             var f = false;
             var wolf = gameScene.wolf.log;
 
             sheep.CheckGravity();
 
-            if (sheep.state == states.IDLE || sheep.state == states.EAT)
-            {
+            if (sheep.state == states.IDLE || sheep.state == states.EAT) {
                 if (needToFlee(wolf)) // Wolf is there, run for your life dood
                 {
                     wolfSpotted();
                 }
-                else if (needToFollow())
-                {
+                else if (needToFollow()) {
                     startFollow();
                 }
-                else
-                {
+                else {
 
                 }
             }
 
-            if (sheep.flag & flags.flee && sheep.state == states.RUNNING)
-            {
+            if (sheep.state == states.MOVING && moveJump) {
+                sheep.y -= 24;
+            }
+
+            if (sheep.flag & flags.flee && sheep.state == states.RUNNING) {
                 var dir = wolf.x < sheep.x ? 1 : -1;
                 var dist = dir * sheep.fleeSpeed * dt;
                 sheep.fleeDist += Math.abs(dist);
@@ -343,16 +396,16 @@
             */
 
             /*
-
+    
             if (sheep.Flee(wolf))
             {
                 sheep.flag |= flags.flee;
             }
-
+    
             if (!f)
             {
                 sheep.state = states.MOVING;
-
+    
                 if (gameScene.wolf.log.color == "red")
                     sheep.Follow(gameScene.ClosestSheepTo(sheep, true));
                 else
@@ -360,10 +413,10 @@
                     if(sheep.leader == null)
                         sheep.Follow(gameScene.ClosestSheepTo(sheep));
                     else 
-                    	sheep.Follow(sheep.leader);
+                        sheep.Follow(sheep.leader);
                 }
             }
-
+    
             */
         };
 

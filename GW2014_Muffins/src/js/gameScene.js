@@ -158,7 +158,14 @@
                 sheeps[i].log.y += y;
             };
 
+
             bg.Move(x);
+
+
+            for (var i = 0; i < kebabs.length; i++) {
+                kebabs[i].log.x += x;
+                kebabs[i].log.y += y;
+            };
 
         }
 
@@ -188,11 +195,9 @@
 
         function killSheep(obj)
         {
-
-            base.RemoveChild(obj.parent);
+//            base.RemoveChild(obj.parent);
             obj.Die();
             kebabs.push(sheeps.splice(sheeps.indexOf(obj.parent), 1)[0]);
-
         }
 
         var gameScene =

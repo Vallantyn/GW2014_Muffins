@@ -24,13 +24,17 @@
 
         function update(dt)
         {
+            if (_frame == 0)
+            {
+                _events[_step] && eventManager.Fire(_events[_step]);
+            }
+
             _frame++;
 
             if (_frame > _fps)
             {
                 _frame = 0;
                 _step++;
-                _events[_step] && eventManager.Fire(_events[_step]);
             }
 
             if (_step >= _frames)
@@ -53,7 +57,7 @@
             }
 
             cx.translate(mirror? -offset.x : offset.x, offset.y);
-            cx.drawImage(img, _col + dx * _step, dy * _row, dx, dy, x, y, dx, dy);
+            cx.drawImage(img, dx * (_col + _step), dy * _row, dx, dy, x, y, dx, dy);
             cx.translate(mirror ? offset.x : -offset.x, -offset.y);
 
             cx.restore();

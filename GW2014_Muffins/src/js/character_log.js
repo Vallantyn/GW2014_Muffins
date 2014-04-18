@@ -158,7 +158,9 @@
             if (gameScene.sheeps.length > 0) {
                 var s = gameScene.ClosestSheepTo(wolf, false);
                 if (Math.Dist(wolf, s) < wolf.range) {
-                    gameScene.killSheep(s);
+                    //gameScene.killSheep(s);
+
+                    eventManager.Fire('EAT_SHEEP', s);
 
                     wolf.hunger += wolf.hungerReplenish;
                     if (wolf.hunger > 1) wolf.hunger = 1;
