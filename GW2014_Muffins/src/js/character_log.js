@@ -65,6 +65,7 @@ define(['sceneManager', 'tileCollider', 'log', 'eventManager', 'fume_fx'], funct
         eventManager.Add('SKILL_6_UP', bridge);
 
         eventManager.Add('WALK_END', endWalk);
+        eventManager.Add('DIG_END', clearAttack);
 
 
         function moveLeft() {
@@ -312,9 +313,13 @@ define(['sceneManager', 'tileCollider', 'log', 'eventManager', 'fume_fx'], funct
                 var tm = sceneManager.currentScene.tiledMap;
                 var mp = sceneManager.currentScene.mapP;
 
-                for (var i = 0; i < tm.length; i++) {
-                    var t = mp.tileInXY(tm[i], wolf.x + wolf.width / 2, wolf.y + wolf.height);
-                    if (t) {
+                wolf.state = states.DIG;
+
+                for (var i = 0; i < tm.length; i++)
+                {
+                    var t = mp.tileInXY(tm[i], wolf.x+ wolf.width/3,wolf.y + wolf.height);
+                    if(t)
+                    {
                         t.img = null;
                         var ind = mp.walkable.indexOf(t);
                         if (ind == -1) {
@@ -329,7 +334,7 @@ define(['sceneManager', 'tileCollider', 'log', 'eventManager', 'fume_fx'], funct
                         break;
                     }
                 };
-
+                eventManager.Add('DIG_END', clearAttack);
                 wolf.hunger -= wolf.hungerCost;
                 if (wolf.hunger < 0) wolf.hunger = 0;
 

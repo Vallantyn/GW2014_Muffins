@@ -34,7 +34,7 @@ define(["assetManager", "sceneManager"],function (assetManager,sceneManager)
 	    	
 
 	    	context.fillStyle = "#FFF";
-	    	context.font = "35px Georgia bold"
+	    	context.font = "35px Cambria bold"
 	    	context.fillText(txtSheepAlive, 1042,35);
 	    	context.fillText(txtSheepSave, 1110,35);
 	    	context.fillText(txtSheepDead, 1221,35);
