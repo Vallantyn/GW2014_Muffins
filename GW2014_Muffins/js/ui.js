@@ -20,7 +20,7 @@ var Repletion = function (x,y){
         if(this.meter > 160){
             this.meter = 160;
         }*/
-        context.save();
+      /*  context.save();
         context.globalAlpha = 0.9;
         //La jauge de faim devient moins opaque quand le joueur rentre dedans
         if (cube.x + cube.width > this.x && cube.x < this.meter * this.fillRatio && cube.y < this.y + this.height){
@@ -33,7 +33,7 @@ var Repletion = function (x,y){
         context.fillStyle=my_gradient;
         context.fillRect(this.x, this.y,this.meter * this.fillRatio,50);
         context.restore();
-        context.strokeRect(this.x, this.y,this.meter,50);
+        context.strokeRect(this.x, this.y,this.meter,50);*/
     }
 
     this.setHunger = function(value)

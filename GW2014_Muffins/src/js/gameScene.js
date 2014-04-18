@@ -1,4 +1,4 @@
-﻿define(['scene', 'mapParser', 'buffer', 'character', 'sheep','ui', 'background', "assetManager"],function (scene, mapParser, buffer, character, sheep, UI, background, assetManager)
+﻿define(['scene', 'mapParser', 'buffer', 'character', 'sheep','ui', 'background', "assetManager", "eventManager"],function (scene, mapParser, buffer, character, sheep, UI, background, assetManager, eventManager)
 {
     return function GameScene(map, initCb)
     {
@@ -21,6 +21,9 @@
         var ui;
         var bg;
         var zdeath = 1000;
+
+        eventManager.Add("MOUTON_UP", popSheep);
+
 
         function ClosestSheepTo(target, isWolfHidden)
         {
@@ -105,10 +108,10 @@
 
         function init()
         {
+
             tiledMap = mapP.parse(map);
             mapImg = new buffer(1280, 720);
             resetBuffer();
-
 
             var t = [assetManager.Get("plx1"),assetManager.Get("plx2"),assetManager.Get("plx3"),assetManager.Get("plx4"),assetManager.Get("plx5")];
             bg = new background(t);
@@ -184,6 +187,16 @@
                 for (var j = 0; j < tiledMap[i].length; j++)
                     tiledMap[i][j].draw(mapImg.context);
 
+        }
+
+
+        function popSheep()
+        {
+            var s = new sheep(600, 250, sheeps.length+1,  Math.random() > 0.8);
+            console.log("NEW MOUTON")
+            s.Init();
+            sheeps.push(s);
+            base.AddChild(s);
         }
 
 
