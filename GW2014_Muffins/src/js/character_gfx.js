@@ -38,8 +38,8 @@
             sprite.AddAnim(anims.ATTACK + '_R', new spriteAnimation(6, 0, 14, 50));
             sprite.AddAnim(anims.ATTACK + '_L', new spriteAnimation(7, 0, 14, 50));
 
-            sprite.AddAnim(anims.DIG + '_R', new spriteAnimation(6, 0, 14, 100));
-            sprite.AddAnim(anims.DIG + '_L', new spriteAnimation(7, 0, 14, 100));
+            sprite.AddAnim(anims.DIG + '_R', new spriteAnimation(10, 0, 4, 100));
+            sprite.AddAnim(anims.DIG + '_L', new spriteAnimation(11, 0, 4, 100));
 
             sprite.AddAnim(anims.BRIDGE + '_R', new spriteAnimation(4, 0, 12, 100));
             sprite.AddAnim(anims.BRIDGE + '_L', new spriteAnimation(5, 0, 12, 100));
@@ -50,6 +50,9 @@
             sprite.AddEvent(anims.ATTACK + '_L', 6, 'ATTACK_HIT');
             sprite.AddEvent(anims.ATTACK + '_R', 13, 'ATTACK_END');
             sprite.AddEvent(anims.ATTACK + '_L', 13, 'ATTACK_END');
+
+            sprite.AddEvent(anims.DIG + '_R', 3, 'DIG_END');
+            sprite.AddEvent(anims.DIG + '_L', 3, 'DIG_END');
         };
 
         function update(dt)
