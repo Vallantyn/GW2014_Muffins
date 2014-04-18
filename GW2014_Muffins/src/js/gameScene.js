@@ -10,6 +10,7 @@
         var sheepsSaved = [];
         var logs = [];
         var kebabs = [];
+        var fx = [];
         var sheepsNeeded = 3;
 
         var groundOffset = 18;
@@ -178,6 +179,11 @@
                 logs[i].x += x;
                 logs[i].y += y;
             };
+
+            for (var i = 0; i < fx.length; i++) {
+                fx[i].x += x;
+                fx[i].y += y;
+            };
         }
 
         function resetBuffer()
@@ -228,6 +234,7 @@
             get bg() { return bg; },
             get tiledMap() { return tiledMap; },
             get logs() { return logs; },
+            get fx() { return fx; },
             get wolf() { return wolf; },
             get sheeps() { return sheeps; },
             get sheepsSaved() {return sheepsSaved;},

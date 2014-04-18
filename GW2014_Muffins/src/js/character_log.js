@@ -167,7 +167,7 @@ define(['sceneManager', 'tileCollider', 'log', 'eventManager', 'fume_fx'], funct
 
             if (wolf.hunger > 0 || wolf.isHidden)
             {
-                fx = new fume_fx('disguise')
+                fx = new fume_fx('disguise', wolf.x, wolf.y)
                 gameScene.AddChild(fx);
                 eventManager.Add('DISGUISE_FX_CHANGE', desguise);
                 eventManager.Add('DISGUISE_FX_END', end_desguise_bomb);
@@ -276,8 +276,10 @@ define(['sceneManager', 'tileCollider', 'log', 'eventManager', 'fume_fx'], funct
             if (fx != null) return;
 
             if (wolf.hunger > 0) {
-                fx = new fume_fx('log')
+                fx = new fume_fx('log', wolf.x, wolf.y)
                 gameScene.AddChild(fx);
+                gameScene.fx.push(fx);
+
                 eventManager.Add('LOG_FX_SPAWN', putLog);
                 eventManager.Add('LOG_FX_END', endLogBomb);
             }
@@ -286,6 +288,8 @@ define(['sceneManager', 'tileCollider', 'log', 'eventManager', 'fume_fx'], funct
 
         function endLogBomb() {
             gameScene.RemoveChild(fx);
+            gameScene.fx.splice(gameScene.fx.indexOf(fx), 1);
+
             fx = null;
 
             eventManager.Remove('LOG_FX_END', endLogBomb);
