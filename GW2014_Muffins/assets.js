@@ -13,6 +13,8 @@ return {
     plx4 : "4_montagnerose",
     plx5 : "5_arbres",
     HUD : "HUD1",
-    bdv : "bdv"
+    bdv: "bdv",
+    start_screen: 'start_screen',
+    press_space: 'pressspace' 
 }
 });

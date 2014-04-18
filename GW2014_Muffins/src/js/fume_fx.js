@@ -1,7 +1,10 @@
 ﻿define(['sceneManager', 'spriteRenderer', 'spriteAnimation', 'eventManager'], function (sceneManager, spriteRenderer, spriteAnimation, eventManager)
 {
-    return function FumeFx(type)
+    return function FumeFx(type, x, y)
     {
+        var _x = x
+            , _y = y;
+
         var types =
         {
             DISGUISE: 'disguise',
@@ -38,13 +41,17 @@
 
         function render(cx)
         {
-            var wolf = sceneManager.currentScene.wolf.log;
-            sprite.Render(cx, wolf.x-96+44, wolf.y-96-24);
+            sprite.Render(cx, _x-96+44, _y-96-24);
         }
 
         init();
 
         return {
+            get x() { return _x; },
+            get y() { return _y; },
+            set x(v) { _x = v; },
+            set y(v) { _y = v; },
+
             Init: init,
             Update: update,
             Render: render
