@@ -67,6 +67,7 @@
         eventManager.Add('SKILL_6_UP', bridge);
 
         eventManager.Add('WALK_END', endWalk);
+        eventManager.Add('DIG_END', clearAttack);
 
 
         function moveLeft()
@@ -290,10 +291,10 @@
               //DIG
                 var tm = sceneManager.currentScene.tiledMap;
                 var mp = sceneManager.currentScene.mapP;
-
+                wolf.state = states.DIG;
                 for (var i = 0; i < tm.length; i++) 
                 {
-                    var t = mp.tileInXY(tm[i], wolf.x+ wolf.width/2,wolf.y + wolf.height);
+                    var t = mp.tileInXY(tm[i], wolf.x+ wolf.width/3,wolf.y + wolf.height);
                     if(t)
                     {
                         t.img = null;
@@ -311,7 +312,7 @@
                         break;
                     } 
                 };
-
+                eventManager.Add('DIG_END', clearAttack);
                 wolf.hunger -= wolf.hungerCost;
                 if (wolf.hunger < 0) wolf.hunger = 0;
 
