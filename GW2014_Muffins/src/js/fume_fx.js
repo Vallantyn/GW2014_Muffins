@@ -27,10 +27,6 @@
             sprite.AddEvent(types.LOG, 2, 'LOG_FX_SPAWN');
             sprite.AddEvent(types.LOG, 6, 'LOG_FX_END');
 
-            sprite.AddAnim(types.BLOOD, new spriteAnimation(5, 0, 4, 100));
-            sprite.AddEvent(types.BLOOD, 2, 'BLOOD_FX_EAT');
-            sprite.AddEvent(types.BLOOD, 3, 'BLOOD_FX_END');
-
             sprite.Play(_t);
         }
 
