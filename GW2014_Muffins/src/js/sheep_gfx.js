@@ -20,8 +20,13 @@
                 EMPALE_L: "empale_left",
             };
 
-        function init(oy) {
-            sprite = new spriteRenderer('sheep_spritesheet', 11, 9);
+        function init(oy, leader) {
+
+            if(!leader)
+                sprite = new spriteRenderer('sheep_spritesheet', 11, 9);
+            else
+                sprite = new spriteRenderer('belier_spritesheet', 11, 9);
+
             sprite.SetOffset(-20, -46+oy);
 
             sprite.AddAnim(anims.WALK, new spriteAnimation(0, 0, 11, 100));

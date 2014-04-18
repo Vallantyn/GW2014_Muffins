@@ -59,10 +59,10 @@
         eventManager.Add('JUMP_UP', moveJump);
 
         eventManager.Add('SKILL_1_UP', eatSheep);
-        eventManager.Add('SKILL_2_UP', desguise);
-        eventManager.Add('SKILL_3_UP', putLog);
-        eventManager.Add('SKILL_4_UP', prepareTP);
-        eventManager.Add('SKILL_5_UP', dig);
+        eventManager.Add('SKILL_2_UP', dig);
+        eventManager.Add('SKILL_3_UP', desguise);
+        eventManager.Add('SKILL_4_UP', putLog);
+        eventManager.Add('SKILL_5_UP', prepareTP);
         eventManager.Add('SKILL_6_UP', bridge);
 
         eventManager.Add('WALK_END', endWalk);
@@ -148,6 +148,7 @@
 
             var x = wolf.x;
             gameScene.moveMap(-wolf.dir * wolf.speedX, 0);
+
             // wolf.x += /*(Input.rightKey - Input.leftKey)*/ wolf.dir * wolf.speedX;
             for (var i = 0; i < gameScene.mapP.wallground.length; i++) {
                 if (wolf.collider.CheckGround(gameScene.mapP.wall[i])) {
@@ -169,14 +170,14 @@
                 if (wolf.color != "red") {
                     wolf.color = "red";
                     wolf.speedX = 2;
+                    wolf.hunger -= wolf.hungerCost;
+                    if (wolf.hunger < 0) wolf.hunger = 0;
                 }
                 else {
                     wolf.color = "blue";
                     wolf.speedX = 6;
                 }
 
-                wolf.hunger -= wolf.hungerCost;
-                if (wolf.hunger < 0) wolf.hunger = 0;
 
             }
             gameScene.ui.setHunger(wolf.hunger);
@@ -189,7 +190,7 @@
         function eatSheep() {
             //Je sais, c'est horrible
 
-            console.log("1 : Eat Sheep ")
+            console.log("Eat Sheep ")
             if (gameScene.sheeps.length > 0) {
                 var s = gameScene.ClosestSheepTo(wolf, false);
                 if (Math.Dist(wolf, s) < wolf.range) {
@@ -207,7 +208,7 @@
         function prepareTP()
         {
             
-            console.log("4 : Teleport, now click ")
+            console.log("Teleport, now click ")
             if (wolf.hunger > 0) 
             {
                 eventManager.Add('LMB_DOWN', tp);
@@ -243,7 +244,7 @@
         }
 
         function putLog() {
-            console.log("3 : Put Log ")
+            console.log("Put Log ")
 
             if (wolf.hunger > 0) {
                 //pose une buche
@@ -266,7 +267,7 @@
 
         function dig()
         {
-            console.log("5 : Dig ")
+            console.log(" Dig ")
 
             if (wolf.hunger > 0) 
             {
@@ -306,7 +307,7 @@
 
         function bridge(x, y)
         {
-            console.log("6 : Bridge ")
+            console.log(" Bridge ")
 
             if (wolf.hunger > 0) 
             {

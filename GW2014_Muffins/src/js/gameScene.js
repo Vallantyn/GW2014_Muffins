@@ -1,4 +1,4 @@
-﻿define(['scene', 'mapParser', 'buffer', 'character', 'sheep','ui'],function (scene, mapParser, buffer, character, sheep, UI)
+﻿define(['scene', 'mapParser', 'buffer', 'character', 'sheep','ui', 'background', "assetManager"],function (scene, mapParser, buffer, character, sheep, UI, background, assetManager)
 {
     return function GameScene(map, initCb)
     {
@@ -7,8 +7,10 @@
 
         var wolf;// = new character();
         var sheeps = [];
+        var sheepsSaved = [];
         var logs = [];
         var kebabs = [];
+        var sheepsNeeded = 3;
 
         var groundOffset = 18;
         var gravity = .8;
@@ -17,6 +19,7 @@
         var mapImg;
         var tiledMap;
         var ui;
+        var bg;
 
         function ClosestSheepTo(target, isWolfHidden)
         {
@@ -107,6 +110,12 @@
 
             resetBuffer();
 
+
+            var t = [assetManager.Get("plx1"),assetManager.Get("plx2"),assetManager.Get("plx3"),assetManager.Get("plx4"),assetManager.Get("plx5")];
+            bg = new background(t);
+
+            base.AddChild(bg);
+
             wolf = new character(1280/2 - 184/2, 10);
             base.AddChild(wolf);
 
@@ -116,7 +125,7 @@
 
                 var s = new sheep(600 + dx , 250, i+1);
 
-                //if(i == 3) s.log.isLeader = true;
+                if(i == 3) s.log.isLeader = true;
 
                 sheeps.push(s);
                 base.AddChild(s);
@@ -127,10 +136,11 @@
                 //cx.save();
                // cx.translate(150,0);
                 cx.drawImage(mapImg.canvas, 0, 0);
+
                 //cx.restore();
             }});
 
-            ui = new UI(10,10);
+            ui = new UI(120,24);
 
             base.AddChild(ui);
 
@@ -150,6 +160,10 @@
                 sheeps[i].log.x += x;
                 sheeps[i].log.y += y;
             };
+
+
+            bg.Move(x);
+
 
             for (var i = 0; i < kebabs.length; i++) {
                 kebabs[i].log.x += x;
@@ -197,10 +211,13 @@
         {
             get mapP() { return mapP; },
             get ui() { return ui; },
+            get bg() { return bg; },
             get tiledMap() { return tiledMap; },
             get logs() { return logs; },
             get wolf() { return wolf; },
             get sheeps() { return sheeps; },
+            get sheepsSaved() {return sheepsSaved;},
+            get sheepsNeeded() { return sheepsNeeded;},
             get kebabs() { return kebabs; },
 
             get groundOffset() { return groundOffset; },

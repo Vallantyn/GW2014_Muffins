@@ -52,17 +52,22 @@
             if (target)
             {
                 
-                    if (!sheep.leader || b) {
-                        var d = Math.Dist(target, sheep)
+                if(sheep.leader)
+                    if(!gameScene.GetSheep(sheep.leader))
+                        sheep.leader = null;
 
-                        if (d < sheep.distOfView && d >= sheep.distMini)
-                        {
-                            sheep.leader = target.ID;
-                            return true;
-                        }
+
+                if (!sheep.leader || b) {
+                    var d = Math.Dist(target, sheep)
+
+                    if (d < sheep.distOfView && d >= sheep.distMini)
+                    {
+                        sheep.leader = target.ID;
+                        return true;
                     }
-                    else if(Math.Dist(gameScene.GetSheep(sheep.leader), sheep) >= sheep.distMini ) return false;
-                    else return true;
+                }
+                else if(Math.Dist(gameScene.GetSheep(sheep.leader), sheep) >= sheep.distMini ) return false;
+                else return true;
                     
                 
                     
@@ -197,6 +202,7 @@
             isDying: false,
             isDead: false,
             leader: null,
+            isSaved : false,
 
             isLeader: false,
 
@@ -209,18 +215,51 @@
                 sheep.y += y;
                 var tx = sheep.x;
                 sheep.x += x;
-                for (var i = 0; i < gameScene.mapP.wallground.length; i++)
+                for (var i = 0; i < gameScene.mapP.wall.length; i++)
                 {
                     if (sheep.collider.CheckGround(gameScene.mapP.wall[i]))
                     {
-                        if(sheep.x > gameScene.mapP.wall[i].x)
-                            sheep.x = gameScene.mapP.wall[i].x + gameScene.mapP.wall[i].width/2 ; 
+                        if(sheep.x > gameScene.mapP.wall[i].x + gameScene.mapP.wall[i].width/2)
+                            sheep.x = gameScene.mapP.wall[i].x + gameScene.mapP.wall[i].width  ; 
                         else
-                            sheep.x = gameScene.mapP.wall[i].x - gameScene.mapP.wall[i].width/2 ; 
-
+                            sheep.x = gameScene.mapP.wall[i].x - sheep.width - gameScene.mapP.wall[i].width/2  ; 
+                        
                         break;
                     }
                 }
+
+                for (var i = 0; i < gameScene.mapP.killing.length; i++)
+                {
+                    if (sheep.collider.CheckGround(gameScene.mapP.killing[i]))
+                    {
+                        sheep.x = gameScene.mapP.killing[i].x - gameScene.mapP.killing[i].width/2;
+                        sheep.y = gameScene.mapP.killing[i].y - gameScene.mapP.killing[i].height/2;
+                        sheepKilled(sheep);
+                        var a = gameScene.mapP.killing.splice(i, 1);
+                        gameScene.mapP.walkable.push(a[0]);
+                        break;
+                    }
+                }
+                if(!sheep.isSaved)
+                {
+                    for (var i = 0; i < gameScene.mapP.winning.length; i++)
+                    {
+                        if (sheep.collider.CheckGround(gameScene.mapP.winning[i]))
+                        {
+                            sheep.isSaved = true;
+                            gameScene.RemoveChild(sheep.parent);
+                            gameScene.sheepsSaved.push(gameScene.sheeps.splice(gameScene.sheeps.indexOf(sheep), 1));
+                            
+                            if(gameScene.sheepsSaved.length >= gameScene.sheepsNeeded)
+                                alert("Level Win");
+                            
+                            break;
+                        }
+                    }
+
+                }
+
+
             },
 
             Follow: function (obj)
