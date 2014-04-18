@@ -320,7 +320,8 @@
         {
             if (sheep.isDying)
             {
-                if (sheep.isDead) {
+                if (sheep.isDead)
+                {
                     sheep.state = states.DEAD;
                 }
                 else

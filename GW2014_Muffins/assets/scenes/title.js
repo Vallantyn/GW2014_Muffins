@@ -73,7 +73,8 @@
         eventManager.Add('JUMP_UP', start);
     }
 
-    function start() {
+    function start()
+    {
         eventManager.Remove('JUMP_UP', start);
 
         sceneManager.Load('level_selection');
