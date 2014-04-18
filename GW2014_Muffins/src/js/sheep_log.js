@@ -125,7 +125,7 @@
             {
                 sheep.flag &= ~flags.flee;
                 sheep.state = states.IDLE;
-
+                sheep.fleeTarget = null;
                 sheep.fleeDist = 0;
             }
             else
@@ -213,6 +213,7 @@
             isSaved : false,
             isWandering : false,
             isLeader: false,
+            fleeTarget : null,
 
             Move: function (x, y) 
             {
@@ -397,7 +398,7 @@
                 return;
             }
 
-            var f = null;
+            
             var wolf = gameScene.wolf.log;
 
             sheep.CheckGravity();
@@ -408,22 +409,20 @@
 
                     if (needToFlee(gameScene.logs[i])) // Wolf is there, run for your life dood
                     {
-                        f = gameScene.logs[i];
+                        sheep.fleeTarget = gameScene.logs[i];
                         wolfSpotted();
                         break;
                     }
                 };
 
-                if (!f && needToFlee(wolf)) // Wolf is there, run for your life dood
+                if (needToFlee(wolf)) // Wolf is there, run for your life dood
                 {
- 
-                    f = wolf;
-                    wolfSpotted();
-                }
-                
-
-                if(f)
-                {
+                    if(!sheep.fleeTarget)
+                    {
+                        sheep.fleeTarget = wolf;
+                        wolfSpotted();
+                        
+                    }
                 }
                 else if (needToFollow() && !sheep.isLeader) {
                     startFollow();
@@ -442,18 +441,21 @@
               //  sheep.y -= 24;
             //}
             var dir;
-            if(f)
-                dir = f.x < sheep.x ? 1 : -1;
+            if(sheep.fleeTarget)
+            {
+                //console.log(sheep.fleeTarget)
+                dir = sheep.fleeTarget.x < sheep.x ? 1 : -1;
+            }
             else
                 dir = wolf.x < sheep.x ? 1 : -1;
 
 
-            var nx = f ? f.x : wolf.x;
              
             if (sheep.flag & flags.flee && sheep.state == states.RUNNING) {
 
                 var dist = dir * sheep.fleeSpeed * dt;
                 sheep.fleeDist += Math.abs(dist);
+                console.log(dist > 0)
                 sheep.Move(dist, 0);
             }
             else if (sheep.flag & flags.follow) {
